@@ -1,0 +1,6 @@
+export const REQUEST_STATUS = {
+  PENDING: "PENDING",
+  ASSIGNED: "ASSIGNED",
+  RESOLVED: "RESOLVED",
+  CLOSED: "CLOSED",
+} as const;

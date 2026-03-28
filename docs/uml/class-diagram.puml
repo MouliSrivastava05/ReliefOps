@@ -1,0 +1,4 @@
+@startuml ReliefOps
+title ReliefOps — class diagram (capstone)
+' Expand with domain entities, services, and repositories
+@enduml
