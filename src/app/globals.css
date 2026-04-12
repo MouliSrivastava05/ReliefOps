@@ -1,3 +1,99 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  ::selection {
+    @apply bg-primary-soft text-primary-deep;
+  }
+
+  body {
+    @apply bg-canvas text-ink;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+}
+
+@layer components {
+  .ro-page {
+    @apply mx-auto max-w-5xl px-5 pb-20 pt-12 sm:px-8 lg:pt-16;
+  }
+
+  .ro-page-narrow {
+    @apply mx-auto max-w-md px-5 pb-20 pt-12 sm:px-8;
+  }
+
+  .ro-page-wide {
+    @apply mx-auto max-w-6xl px-5 pb-20 pt-12 sm:px-8 lg:pt-16;
+  }
+
+  .ro-eyebrow {
+    @apply text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-ink-faint;
+  }
+
+  .ro-title {
+    @apply font-display text-[2rem] font-medium leading-[1.1] tracking-tight text-ink sm:text-[2.35rem];
+  }
+
+  .ro-lead {
+    @apply mt-4 max-w-2xl text-base leading-relaxed text-ink-muted;
+  }
+
+  .ro-label {
+    @apply block text-xs font-medium text-ink-muted;
+  }
+
+  .ro-input {
+    @apply mt-1.5 w-full rounded-md border border-canvas-line bg-surface px-3 py-2.5 text-sm text-ink shadow-inset transition placeholder:text-ink-faint hover:border-canvas-deep focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
+  }
+
+  .ro-select {
+    @apply mt-1.5 w-full cursor-pointer appearance-none rounded-md border border-canvas-line bg-surface px-3 py-2.5 pr-10 text-sm text-ink shadow-inset transition placeholder:text-ink-faint hover:border-canvas-deep focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2357534e'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-size: 1rem;
+    background-position: right 0.6rem center;
+    background-repeat: no-repeat;
+  }
+
+  .ro-btn {
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-45;
+  }
+
+  .ro-btn-primary {
+    @apply ro-btn bg-primary text-surface shadow-lift hover:bg-primary-hover active:translate-y-px;
+  }
+
+  .ro-btn-secondary {
+    @apply ro-btn border border-canvas-line bg-surface text-ink shadow-inset hover:border-canvas-deep hover:bg-surface-mute;
+  }
+
+  .ro-btn-warn {
+    @apply ro-btn bg-accent text-white hover:opacity-95;
+  }
+
+  .ro-btn-ghost {
+    @apply ro-btn text-primary hover:bg-primary-soft/60;
+  }
+
+  .ro-card {
+    @apply rounded-lg border border-canvas-line bg-surface p-5 shadow-lift;
+  }
+
+  .ro-card-quiet {
+    @apply rounded-lg border border-canvas-line/80 bg-surface-mute/80 p-4;
+  }
+
+  .ro-divider {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-canvas-line to-transparent;
+  }
+
+  .ro-link {
+    @apply font-medium text-primary underline decoration-primary/30 underline-offset-4 transition hover:decoration-primary;
+  }
+}

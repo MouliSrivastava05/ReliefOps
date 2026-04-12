@@ -15,3 +15,23 @@ export function haversineKm(
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
+
+/** Greedy matching: nearest resource with coordinates */
+export function nearestResourceId(
+  lat: number,
+  lng: number,
+  resources: Array<{ _id: { toString(): string }; lat: number; lng: number }>,
+): string | null {
+  if (!resources.length) return null;
+  let best = resources[0];
+  let bestD = haversineKm(lat, lng, best.lat, best.lng);
+  for (let i = 1; i < resources.length; i++) {
+    const r = resources[i];
+    const d = haversineKm(lat, lng, r.lat, r.lng);
+    if (d < bestD) {
+      best = r;
+      bestD = d;
+    }
+  }
+  return best._id.toString();
+}
