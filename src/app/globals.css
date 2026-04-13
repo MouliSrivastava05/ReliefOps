@@ -5,18 +5,38 @@
 @layer base {
   :root {
     color-scheme: light;
+    --color-primary:       #0f766e;
+    --color-primary-hover: #0d9488;
+    --color-primary-soft:  #ccfbf1;
+    --color-primary-deep:  #115e59;
+    --color-canvas:        #f8fafc;
+    --color-canvas-line:   #e2e8f0;
+    --color-canvas-deep:   #cbd5e1;
+    --color-surface:       #ffffff;
+    --color-surface-mute:  #f1f5f9;
+    --color-ink:           #0f172a;
+    --color-ink-muted:     #475569;
+    --color-ink-faint:     #94a3b8;
+    --color-accent:        #e11d48;
+    --color-danger:        #dc2626;
+    --color-danger-soft:   #fef2f2;
+    --shadow-lift:         0 4px 6px -1px rgb(0 0 0/.1),0 2px 4px -2px rgb(0 0 0/.1);
+    --shadow-inset:        inset 0 2px 4px 0 rgb(0 0 0/.05);
   }
 
   ::selection {
-    @apply bg-primary-soft text-primary-deep;
+    background-color: var(--color-primary-soft);
+    color:            var(--color-primary-deep);
   }
 
   body {
-    @apply bg-canvas text-ink;
+    background-color: var(--color-canvas);
+    color:            var(--color-ink);
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-primary;
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 }
 
@@ -34,66 +54,117 @@
   }
 
   .ro-eyebrow {
-    @apply text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-ink-faint;
+    @apply text-[0.65rem] font-semibold uppercase tracking-[0.22em];
+    color: var(--color-ink-faint);
   }
 
   .ro-title {
-    @apply font-display text-[2rem] font-medium leading-[1.1] tracking-tight text-ink sm:text-[2.35rem];
+    @apply font-sans text-[2rem] font-medium leading-[1.1] tracking-tight sm:text-[2.35rem];
+    color: var(--color-ink);
   }
 
   .ro-lead {
-    @apply mt-4 max-w-2xl text-base leading-relaxed text-ink-muted;
+    @apply mt-4 max-w-2xl text-base leading-relaxed;
+    color: var(--color-ink-muted);
   }
 
   .ro-label {
-    @apply block text-xs font-medium text-ink-muted;
+    @apply block text-xs font-medium;
+    color: var(--color-ink-muted);
   }
 
   .ro-input {
-    @apply mt-1.5 w-full rounded-md border border-canvas-line bg-surface px-3 py-2.5 text-sm text-ink shadow-inset transition placeholder:text-ink-faint hover:border-canvas-deep focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
+    @apply mt-1.5 w-full rounded-md border px-3 py-2.5 text-sm shadow-sm transition;
+    border-color:     var(--color-canvas-line);
+    background-color: var(--color-surface);
+    color:            var(--color-ink);
+  }
+  .ro-input::placeholder { color: var(--color-ink-faint); }
+  .ro-input:hover         { border-color: var(--color-canvas-deep); }
+  .ro-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
   }
 
   .ro-select {
-    @apply mt-1.5 w-full cursor-pointer appearance-none rounded-md border border-canvas-line bg-surface px-3 py-2.5 pr-10 text-sm text-ink shadow-inset transition placeholder:text-ink-faint hover:border-canvas-deep focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
+    @apply mt-1.5 w-full cursor-pointer appearance-none rounded-md border px-3 py-2.5 pr-10 text-sm shadow-sm transition;
+    border-color:     var(--color-canvas-line);
+    background-color: var(--color-surface);
+    color:            var(--color-ink);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2357534e'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
     background-size: 1rem;
     background-position: right 0.6rem center;
     background-repeat: no-repeat;
   }
+  .ro-select:hover { border-color: var(--color-canvas-deep); }
+  .ro-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
 
   .ro-btn {
-    @apply inline-flex items-center justify-center rounded-md px-4 py-2.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-45;
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2.5 text-sm font-medium transition disabled:pointer-events-none disabled:opacity-45;
   }
 
   .ro-btn-primary {
-    @apply ro-btn bg-primary text-surface shadow-lift hover:bg-primary-hover active:translate-y-px;
+    @apply ro-btn;
+    background-color: var(--color-primary);
+    color:            var(--color-surface);
+    box-shadow:       var(--shadow-lift);
   }
+  .ro-btn-primary:hover  { background-color: var(--color-primary-hover); }
+  .ro-btn-primary:active { transform: translateY(1px); }
 
   .ro-btn-secondary {
-    @apply ro-btn border border-canvas-line bg-surface text-ink shadow-inset hover:border-canvas-deep hover:bg-surface-mute;
+    @apply ro-btn border;
+    border-color:     var(--color-canvas-line);
+    background-color: var(--color-surface);
+    color:            var(--color-ink);
+    box-shadow:       var(--shadow-inset);
+  }
+  .ro-btn-secondary:hover {
+    border-color:     var(--color-canvas-deep);
+    background-color: var(--color-surface-mute);
   }
 
   .ro-btn-warn {
-    @apply ro-btn bg-accent text-white hover:opacity-95;
+    @apply ro-btn text-white;
+    background-color: var(--color-accent);
   }
+  .ro-btn-warn:hover { opacity: 0.95; }
 
   .ro-btn-ghost {
-    @apply ro-btn text-primary hover:bg-primary-soft/60;
+    @apply ro-btn;
+    color: var(--color-primary);
+  }
+  .ro-btn-ghost:hover {
+    background-color: color-mix(in srgb, var(--color-primary-soft) 60%, transparent);
   }
 
   .ro-card {
-    @apply rounded-lg border border-canvas-line bg-surface p-5 shadow-lift;
+    @apply rounded-lg border p-5;
+    border-color:     var(--color-canvas-line);
+    background-color: var(--color-surface);
+    box-shadow:       var(--shadow-lift);
   }
 
   .ro-card-quiet {
-    @apply rounded-lg border border-canvas-line/80 bg-surface-mute/80 p-4;
+    @apply rounded-lg border p-4;
+    border-color:     color-mix(in srgb, var(--color-canvas-line) 80%, transparent);
+    background-color: color-mix(in srgb, var(--color-surface-mute) 80%, transparent);
   }
 
   .ro-divider {
-    @apply h-px w-full bg-gradient-to-r from-transparent via-canvas-line to-transparent;
+    @apply h-px w-full;
+    background: linear-gradient(to right, transparent, var(--color-canvas-line), transparent);
   }
 
   .ro-link {
-    @apply font-medium text-primary underline decoration-primary/30 underline-offset-4 transition hover:decoration-primary;
+    @apply font-medium underline underline-offset-4 transition;
+    color:                 var(--color-primary);
+    text-decoration-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
   }
+  .ro-link:hover { text-decoration-color: var(--color-primary); }
 }
