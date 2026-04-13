@@ -52,7 +52,7 @@ export default function AdminRequestsPage() {
           </p>
         )}
         <div className="space-y-4">
-          {requests.map((r) => (
+          {requests.map((r: any) => (
             <RequestCard
               key={r.id}
               id={r.id}

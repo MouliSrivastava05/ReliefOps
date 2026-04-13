@@ -1,0 +1,47 @@
+.next/types/app/api/resource-requests/[id]/route.ts(2,24): error TS2306: File '/Users/moulisrivastava/Desktop/ReliefOps/src/app/api/resource-requests/[id]/route.ts' is not a module.
+.next/types/app/api/resource-requests/[id]/route.ts(5,29): error TS2306: File '/Users/moulisrivastava/Desktop/ReliefOps/src/app/api/resource-requests/[id]/route.ts' is not a module.
+.next/types/app/api/resource-requests/route.ts(2,24): error TS2306: File '/Users/moulisrivastava/Desktop/ReliefOps/src/app/api/resource-requests/route.ts' is not a module.
+.next/types/app/api/resource-requests/route.ts(5,29): error TS2306: File '/Users/moulisrivastava/Desktop/ReliefOps/src/app/api/resource-requests/route.ts' is not a module.
+.next/types/validator.ts(179,39): error TS2306: File '/Users/moulisrivastava/Desktop/ReliefOps/src/app/api/resource-requests/[id]/route.ts' is not a module.
+.next/types/validator.ts(188,39): error TS2306: File '/Users/moulisrivastava/Desktop/ReliefOps/src/app/api/resource-requests/route.ts' is not a module.
+__tests__/unit/AllocationStrategy.test.ts(6,15): error TS2554: Expected 2 arguments, but got 0.
+__tests__/unit/AllocationStrategy.test.ts(11,15): error TS2554: Expected 2 arguments, but got 0.
+__tests__/unit/RequestFactory.test.ts(5,30): error TS2554: Expected 4 arguments, but got 3.
+src/app/(admin)/requests/page.tsx(7,10): error TS2305: Module '"@/hooks/useRequests"' has no exported member 'useAllocateRequest'.
+src/app/(admin)/requests/page.tsx(7,30): error TS2724: '"@/hooks/useRequests"' has no exported member named 'useRequestsList'. Did you mean 'useRequests'?
+src/app/(admin)/requests/page.tsx(55,26): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/app/(admin)/resources/page.tsx(13,31): error TS2339: Property 'role' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/requests/route.ts(30,23): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/requests/route.ts(49,18): error TS2339: Property 'role' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/requests/route.ts(50,22): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/requests/route.ts(51,47): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/requests/route.ts(55,32): error TS2339: Property 'createAndQueue' does not exist on type 'RequestService'.
+src/app/api/resources/route.ts(25,23): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/resources/route.ts(31,30): error TS2339: Property 'list' does not exist on type 'ResourceService'.
+src/app/api/resources/route.ts(32,31): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/app/api/resources/route.ts(57,23): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/resources/route.ts(60,20): error TS2339: Property 'role' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/resources/route.ts(60,57): error TS2339: Property 'role' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/components/common/RoleGuard.tsx(40,31): error TS2339: Property 'role' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/components/common/RoleGuard.tsx(71,28): error TS2339: Property 'status' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/components/common/RoleGuard.tsx(95,31): error TS2339: Property 'role' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/components/common/RoleGuard.tsx(148,23): error TS2339: Property 'role' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/components/common/RoleGuard.tsx(148,62): error TS2339: Property 'role' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/domain/patterns/strategy/GreedyStrategy.ts(15,21): error TS2339: Property 'status' does not exist on type '{}'.
+src/domain/patterns/strategy/GreedyStrategy.ts(16,63): error TS2339: Property 'type' does not exist on type '{}'.
+src/domain/patterns/strategy/GreedyStrategy.ts(17,46): error TS2339: Property 'lat' does not exist on type '{}'.
+src/domain/patterns/strategy/GreedyStrategy.ts(17,55): error TS2339: Property 'lng' does not exist on type '{}'.
+src/domain/patterns/strategy/SeverityStrategy.ts(17,39): error TS2339: Property 'findQueuedOrdered' does not exist on type 'IRequestRepository'.
+src/domain/repositories/RequestRepository.ts(1,10): error TS2305: Module '"../models/RequestModel"' has no exported member 'RequestModel'.
+src/lib/auth.ts(57,23): error TS2352: Conversion of type 'User | AdapterUser' to type '{ role: string; }' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Property 'role' is missing in type 'AdapterUser' but required in type '{ role: string; }'.
+src/lib/auth.ts(66,22): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/lib/auth.ts(67,22): error TS2339: Property 'role' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/lib/auth.ts(68,22): error TS2339: Property 'status' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/lib/auth.ts(90,11): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/lib/auth.ts(90,20): error TS2339: Property 'role' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/lib/auth.ts(91,18): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/lib/auth.ts(91,52): error TS2339: Property 'role' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/lib/auth.ts(91,68): error TS2339: Property 'status' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/lib/mongodb.ts(3,10): error TS2724: '"@/domain/patterns/observer/ObserverManager"' has no exported member named 'globalObserverManager'. Did you mean 'ObserverManager'?
+src/services/ResourceService.ts(7,27): error TS2339: Property 'findAvailable' does not exist on type 'IResourceRepository'.
