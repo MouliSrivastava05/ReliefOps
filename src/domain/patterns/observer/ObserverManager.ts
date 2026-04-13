@@ -13,3 +13,5 @@ export class ObserverManager {
     }
   }
 }
+
+export const globalObserverManager = new ObserverManager();

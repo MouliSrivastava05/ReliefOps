@@ -1,16 +1,6 @@
-import { NextResponse } from "next/server";
+import NextAuth from "next-auth";
+import { authOptions } from "@/lib/auth";
 
-/** Wire NextAuth here — see https://next-auth.js.org */
-export function GET() {
-  return NextResponse.json(
-    { message: "NextAuth route placeholder — add NextAuth handler" },
-    { status: 501 },
-  );
-}
+const handler = NextAuth(authOptions);
 
-export function POST() {
-  return NextResponse.json(
-    { message: "" },
-    { status: 501 },
-  );
-}
+export { handler as GET, handler as POST };
