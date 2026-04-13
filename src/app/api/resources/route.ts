@@ -29,7 +29,7 @@ export async function GET() {
   const repo = new ResourceRepository();
   const service = new ResourceService(repo);
   const list = await service.list();
-  const resources = list.map((r) => ({
+  const resources = list.map((r: any) => ({
     id: r._id.toString(),
     name: r.name,
     type: r.type,

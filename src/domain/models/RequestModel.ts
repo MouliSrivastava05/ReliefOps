@@ -1,16 +1,16 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
-const ResourceSchema = new Schema(
+const RequestSchema = new Schema(
   {
-    name: { type: String, required: true },
-    type: { type: String, required: true, index: true },
-    quantityAvailable: { type: Number, required: true, min: 0, default: 1 },
+    type: { type: String, required: true },
     lat: { type: Number, required: true },
     lng: { type: Number, required: true },
-    shelterTag: { type: String, default: "" },
+    status: { type: String, default: "pending" },
+    citizenId: { type: String },
+    priority: { type: Number, default: 0 },
+    description: { type: String },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
-export const ResourceModel =
-  models.Resource ?? model("Resource", ResourceSchema);
+export const RequestModel = models.Request ?? model("Request", RequestSchema);
