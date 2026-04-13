@@ -12,6 +12,7 @@ export type ResourceRecord = {
 export interface IResourceRepository {
   findById(id: string): Promise<ResourceRecord | null>;
   findAll(): Promise<ResourceRecord[]>;
+  findAvailable(): Promise<ResourceRecord[]>;
   findAvailableByType(type: RequestType): Promise<ResourceRecord[]>;
   /** Atomic decrement — conflict-free when only matching docs with stock */
   reserveOneUnit(id: string): Promise<boolean>;

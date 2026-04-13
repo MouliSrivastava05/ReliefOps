@@ -31,6 +31,11 @@ export class ResourceRepository implements IResourceRepository {
     return docs.map((d) => toRecord(d)!).filter(Boolean);
   }
 
+  async findAvailable(): Promise<ResourceRecord[]> {
+    const docs = await ResourceModel.find({ quantityAvailable: { $gte: 1 } }).lean().exec();
+    return docs.map((d) => toRecord(d)!).filter(Boolean);
+  }
+
   async findAvailableByType(type: RequestType): Promise<ResourceRecord[]> {
     const docs = await ResourceModel.find({
       type,
