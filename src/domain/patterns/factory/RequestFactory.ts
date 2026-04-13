@@ -1,16 +1,17 @@
+import type { RequestType } from "@/types/request.types";
 import { CrisisRequest } from "../../request/CrisisRequest";
 import { FoodRequest } from "../../request/FoodRequest";
 import { MedicalRequest } from "../../request/MedicalRequest";
 import { ShelterRequest } from "../../request/ShelterRequest";
 
-export type RequestKind = "medical" | "shelter" | "food";
+export type RequestKind = RequestType;
 
 export class RequestFactory {
   static create(
     kind: RequestKind,
     id: string,
     citizenId: string,
-    severity: number
+    severity: number,
   ): CrisisRequest {
     switch (kind) {
       case "medical":
