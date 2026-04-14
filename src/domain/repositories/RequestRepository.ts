@@ -6,7 +6,11 @@ export class RequestRepository implements IRequestRepository {
     return RequestModel.findById(id).lean().exec();
   }
 
-  async findAll(): Promise<unknown[]> {
+  async findAll(): Promise<any[]> {
     return RequestModel.find().lean().exec();
+  }
+
+  async findQueuedOrdered(): Promise<any[]> {
+    return RequestModel.find({ status: "QUEUED" }).sort({ priority: -1 }).lean().exec();
   }
 }

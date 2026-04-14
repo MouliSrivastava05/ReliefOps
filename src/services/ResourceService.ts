@@ -3,6 +3,10 @@ import type { IResourceRepository } from "@/domain/repositories/interfaces/IReso
 export class ResourceService {
   constructor(private readonly resources: IResourceRepository) {}
 
+  list() {
+    return this.resources.findAll();
+  }
+
   listAvailable() {
     return this.resources.findAvailable();
   }
