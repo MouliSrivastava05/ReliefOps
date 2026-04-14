@@ -1,4 +1,0 @@
-@startuml
-title Allocation sequence
-' API -> AllocationService -> Strategy -> Repository
-@enduml

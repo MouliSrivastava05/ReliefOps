@@ -1,4 +1,0 @@
-@startuml
-title ReliefOps — ER diagram
-' User, Request, Resource, Allocation, Volunteer
-@enduml
