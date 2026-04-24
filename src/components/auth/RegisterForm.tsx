@@ -1,204 +1,187 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { ROLES } from "@/constants/roles.constants";
 
-export function RegisterForm() {
-  const router = useRouter();
-  
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    role: ROLES.CITIZEN as string,
-    motivation: "",
-    skills: "",
-  });
-  
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      const payload = {
-        ...formData,
-        skills: formData.skills.split(",").map(s => s.trim()).filter(Boolean),
-      };
-
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Registration failed");
-      }
-
-      const msg = data.status === "pending" 
-        ? "Account created successfully! An administrator must approve your account before you can log in."
-        : "Account created successfully! Routing you to login...";
-      
-      setSuccessMsg(msg);
-      
-      setTimeout(() => {
-        router.push("/login");
-      }, 3000);
-
-    } catch (err: any) {
-      setError(err.message || "An unexpected error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (successMsg) {
-    return (
-      <div className="ro-card text-center space-y-4 py-8">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft">
-          <svg className="h-6 w-6 text-primary-deep" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          </svg>
-        </div>
-        <h2 className="text-xl font-medium text-ink">Success</h2>
-        <p className="text-sm text-ink-muted">{successMsg}</p>
-      </div>
-    );
-  }
+export function RegisterForm({
+  action,
+}: {
+  action: (payload: FormData) => void;
+}) {
+  const [role, setRole] = useState<string>(ROLES.CITIZEN);
+  const [pending, setPending] = useState(false);
 
   return (
-    <div className="ro-card">
-      <h2 className="text-xl font-medium text-ink mb-6 text-center">Create an Account</h2>
-      
-      {error && (
-        <div className="mb-4 rounded-md border border-danger/25 bg-danger-soft px-3 py-2 text-sm text-danger">
-          {error}
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="ro-label" htmlFor="name">Full Name</label>
+    <form
+      action={(data) => {
+        setPending(true);
+        action(data);
+      }}
+      className="ro-card mt-8 space-y-6"
+    >
+      <div className="space-y-4">
+        <label className="ro-label">
+          Full Name
           <input
-            id="name"
             name="name"
             type="text"
             required
+            placeholder="Your full name"
             className="ro-input"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Jane Doe"
           />
-        </div>
+        </label>
 
-        <div>
-          <label className="ro-label" htmlFor="email">Email Address</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            className="ro-input"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="jane@example.com"
-          />
-        </div>
+        <label className="ro-label">
+          Email
+          <input name="email" type="email" required className="ro-input" />
+        </label>
 
-        <div>
-          <label className="ro-label" htmlFor="password">Password</label>
+        <label className="ro-label">
+          Password
           <input
-            id="password"
             name="password"
             type="password"
             required
             minLength={6}
             className="ro-input"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="••••••••"
           />
-        </div>
+        </label>
 
-        <div>
-          <label className="ro-label" htmlFor="role">Account Role</label>
+        <label className="ro-label">
+          Role
           <select
-            id="role"
             name="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
             className="ro-select"
-            value={formData.role}
-            onChange={handleChange}
           >
-            <option value={ROLES.CITIZEN}>Citizen (Find/Request Help)</option>
-            <option value={ROLES.VOLUNTEER}>Volunteer (Provide Help)</option>
-            <option value={ROLES.SHELTER_MANAGER}>Shelter Manager</option>
-            <option value={ROLES.ADMIN}>Administrator</option>
+            <option value={ROLES.CITIZEN}>Citizen</option>
+            <option value={ROLES.VOLUNTEER}>Volunteer</option>
+            <option value={ROLES.ADMIN}>Admin</option>
+            <option value={ROLES.SHELTER_MANAGER}>Shelter manager</option>
           </select>
-          {formData.role !== ROLES.CITIZEN && (
-            <p className="mt-1.5 text-xs text-ink-faint">
-              * Note: {formData.role} accounts require admin approval before you can access the portal.
-            </p>
-          )}
-        </div>
+        </label>
+      </div>
 
-        {formData.role === ROLES.VOLUNTEER && (
-          <>
-            <div>
-              <label className="ro-label" htmlFor="skills">Skills (comma separated)</label>
+      {role === ROLES.VOLUNTEER && (
+        <div className="animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="mb-4 text-xs leading-relaxed text-ink-muted">
+            <p className="font-semibold text-ink">Volunteer Application</p>
+            <p className="mt-1">
+              Your request will be reviewed by an admin before you can access
+              the volunteer portal. Please provide your details below.
+            </p>
+          </div>
+
+          <div className="space-y-4 rounded-md border border-canvas-line/80 bg-surface-mute/50 p-4 shadow-inset">
+            <label className="ro-label">
+              Skills{" "}
+              <span className="text-ink-faint">(comma-separated, e.g. First Aid, Search &amp; Rescue)</span>
               <input
-                id="skills"
                 name="skills"
                 type="text"
+                placeholder="First Aid, Search & Rescue, Logistics..."
                 className="ro-input"
-                value={formData.skills}
-                onChange={handleChange}
-                placeholder="First Aid, Search & Rescue"
               />
-            </div>
-            <div>
-              <label className="ro-label" htmlFor="motivation">Why do you want to volunteer?</label>
+            </label>
+
+            <label className="ro-label">
+              Why do you want to volunteer?
               <textarea
-                id="motivation"
-                name="motivation"
-                required
+                name="message"
                 rows={3}
+                placeholder="Briefly describe your motivation and relevant experience..."
                 className="ro-input resize-none"
-                value={formData.motivation}
-                onChange={handleChange}
-                placeholder="I want to help my community..."
               />
+            </label>
+
+            <div className="flex gap-4">
+              <label className="ro-label flex-1">
+                Emergency Contact (Name)
+                <input
+                  name="emergency_contact_name"
+                  type="text"
+                  required
+                  placeholder="Jane Doe"
+                  className="ro-input"
+                />
+              </label>
+              <label className="ro-label flex-1">
+                Contact Number
+                <input
+                  name="emergency_contact_phone"
+                  type="tel"
+                  required
+                  placeholder="+1..."
+                  className="ro-input"
+                />
+              </label>
             </div>
-          </>
-        )}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="ro-btn-primary w-full mt-2"
-        >
-          {loading ? "Creating..." : "Sign Up"}
-        </button>
-      </form>
+            <label className="ro-label">
+              Valid ID/Passport Upload
+              <input
+                name="id_proof"
+                type="file"
+                required
+                accept="image/*,.pdf"
+                className="ro-input file:mr-4 file:rounded-md file:border-0 file:bg-primary file:px-3 file:py-1 file:text-xs file:font-semibold file:text-surface hover:file:bg-primary-hover"
+              />
+            </label>
 
-      <div className="mt-6 text-center text-sm text-ink-muted border-t border-canvas-line pt-4">
-        Already have an account?{" "}
-        <Link href="/login" className="ro-link">
-          Log in instead
-        </Link>
-      </div>
-    </div>
+            <div className="my-2 h-px w-full bg-canvas-line" />
+
+            <div className="space-y-3">
+              <label className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  required
+                  className="mt-1 h-4 w-4 shrink-0 rounded border-canvas-line text-primary focus:ring-primary"
+                />
+                <span className="text-xs leading-snug text-ink-muted">
+                  I authorize a complete criminal background and screening check.
+                </span>
+              </label>
+
+              <label className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  required
+                  className="mt-1 h-4 w-4 shrink-0 rounded border-canvas-line text-primary focus:ring-primary"
+                />
+                <span className="text-xs leading-snug text-ink-muted">
+                  I agree to the Liability Waiver, validating that I operate at
+                  my own risk in hazardous areas.
+                </span>
+              </label>
+
+              <label className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  required
+                  className="mt-1 h-4 w-4 shrink-0 rounded border-canvas-line text-primary focus:ring-primary"
+                />
+                <span className="text-xs leading-snug text-ink-muted">
+                  I possess required vaccinations and am physically cleared for
+                  Disaster Relief Operation (DRO) demands.
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <button
+        type="submit"
+        disabled={pending}
+        className="ro-btn-primary mt-2 w-full"
+      >
+        {pending
+          ? "Processing..."
+          : role === ROLES.VOLUNTEER
+            ? "Submit Application"
+            : "Create account"}
+      </button>
+    </form>
   );
 }
