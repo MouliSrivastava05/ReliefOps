@@ -2,14 +2,15 @@ import mongoose, { Schema, model, models } from "mongoose";
 
 const UserSchema = new Schema(
   {
-    name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    passwordHash: { type: String, required: true },
     role: { type: String, required: true },
-    status: { type: String, default: "active" },
-    motivation: { type: String },
+    passwordHash: { type: String, required: true },
+    name: { type: String, default: "" },
+    // "active" for all roles by default; "pending" for volunteers awaiting admin approval
+    status: { type: String, default: "active", index: true },
   },
   { timestamps: true },
 );
 
 export const UserModel = models.User ?? model("User", UserSchema);
+
