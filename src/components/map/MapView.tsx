@@ -1,8 +1,21 @@
 "use client";
 
-export function MapView() {
+import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+
+interface RequestRow {
+  id: string;
+  lat: number;
+  lng: number;
+  severity: number;
+  type: string;
+}
+
+interface MapViewProps {
+  requests?: RequestRow[];
+}
+
+export function MapView({ requests = [] }: MapViewProps) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-  const defaultLocation = "New York, NY"; // Fallback location for the operations desk
 
   if (!apiKey) {
     return (
@@ -21,21 +34,28 @@ export function MapView() {
     );
   }
 
-  const embedUrl = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${encodeURIComponent(defaultLocation)}`;
+  // Calculate center based on the first request, or fallback to a default location
+  const defaultCenter = { lat: 40.7128, lng: -74.0060 }; // New York, NY
+  const center = requests.length > 0 ? { lat: requests[0].lat, lng: requests[0].lng } : defaultCenter;
 
   return (
     <div className="overflow-hidden rounded-lg border border-canvas-line bg-surface-mute shadow-lift aspect-video">
-      <iframe
-        width="100%"
-        height="100%"
-        style={{ border: 0 }}
-        loading="lazy"
-        allowFullScreen
-        referrerPolicy="no-referrer-when-downgrade"
-        src={embedUrl}
-        title="Operations Map"
-        data-testid="map-view"
-      />
+      <APIProvider apiKey={apiKey}>
+        <Map
+          defaultCenter={center}
+          defaultZoom={11}
+          gestureHandling="greedy"
+          disableDefaultUI={true}
+        >
+          {requests.map((r) => (
+            <Marker 
+              key={r.id} 
+              position={{ lat: r.lat, lng: r.lng }} 
+              title={`${r.type} (Severity: ${r.severity})`} 
+            />
+          ))}
+        </Map>
+      </APIProvider>
     </div>
   );
 }

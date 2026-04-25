@@ -56,7 +56,7 @@ export default function AdminDashboardPage() {
                   Static preview or placeholder—your data still carries lat/lng.
                 </p>
                 <div className="mt-4">
-                  <MapView />
+                  <MapView requests={requests} />
                 </div>
               </div>
             </div>
