@@ -10,32 +10,25 @@ export function ensureDashboardObserver(): void {
   observerAttached = true;
 }
 
-// Store the memory server and URI on globalThis so they survive
-// Next.js hot-module reloads and are shared across all API route contexts.
-const g = global as typeof global & {
-  _mongoMemoryServer?: any;
-  _mongoUri?: string;
-};
+let uri = process.env.MONGODB_URI;
+let memoryServer: any = null;
 
 export async function connectMongo(): Promise<void> {
   ensureDashboardObserver();
-
-  let uri = process.env.MONGODB_URI;
-
   if (!uri) {
-    if (!g._mongoUri) {
-      const { MongoMemoryServer } = await import("mongodb-memory-server");
-      g._mongoMemoryServer = await MongoMemoryServer.create();
-      g._mongoUri = g._mongoMemoryServer.getUri();
-      console.log("Memory DB started at", g._mongoUri);
+    const { MongoMemoryServer } = await import("mongodb-memory-server");
+    if (!memoryServer) {
+        memoryServer = await MongoMemoryServer.create();
+        uri = memoryServer.getUri();
+        console.log("Memory DB started at", uri);
+    } else {
+        uri = memoryServer.getUri();
     }
-    uri = g._mongoUri;
   }
-
   if (mongoose.connection.readyState >= 1) return;
   await mongoose.connect(uri as string);
 }
 
 export function isMongoConfigured(): boolean {
-  return true; // Always falls back to in-memory server if no MONGODB_URI set
+  return true; // We always fallback to memory server now
 }
