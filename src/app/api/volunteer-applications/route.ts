@@ -32,7 +32,7 @@ export async function GET() {
     .exec();
 
   return NextResponse.json({
-    applications: applications.map((a) => ({
+    applications: applications.map((a: any) => ({
       id: (a as { _id: { toString(): string } })._id.toString(),
       userId: String(a.userId),
       email: String(a.email),
