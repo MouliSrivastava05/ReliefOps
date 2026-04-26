@@ -14,10 +14,11 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![NextAuth](https://img.shields.io/badge/NextAuth.js-v4-purple?style=for-the-badge&logo=auth0&logoColor=white)
 ![Jest](https://img.shields.io/badge/Jest-29-C21325?style=for-the-badge&logo=jest&logoColor=white)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://relief-ops-two.vercel.app/)
 
 <br/>
 
-[Documentation](#architecture) · [Project Structure](#project-structure) · [Quick Start](#setup--installation) · [Tests](#testing)
+[Live Demo](https://relief-ops-two.vercel.app/) · [Documentation](#architecture) · [Project Structure](#project-structure) · [Quick Start](#setup--installation) · [Tests](#testing)
 
 ---
 
