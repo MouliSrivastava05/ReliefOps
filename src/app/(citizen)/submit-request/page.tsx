@@ -1,4 +1,5 @@
 import { RequestForm } from "@/components/requests/RequestForm";
+import { CitizenRequestLog } from "@/components/requests/CitizenRequestLog";
 
 export default function SubmitRequestPage() {
   return (
@@ -17,6 +18,9 @@ export default function SubmitRequestPage() {
       <div className="mt-10">
         <RequestForm />
       </div>
+
+      {/* Citizen Request History */}
+      <CitizenRequestLog />
     </main>
   );
 }

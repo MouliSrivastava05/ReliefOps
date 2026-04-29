@@ -10,6 +10,63 @@ import { isRequestType } from "@/utils/validators";
 
 
 
+export async function GET(req: Request) {
+  if (!isMongoConfigured()) {
+    return NextResponse.json({ error: "MONGODB_URI not set" }, { status: 503 });
+  }
+  try {
+    await connectMongo();
+  } catch (e) {
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : "Database error" },
+      { status: 503 },
+    );
+  }
+
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { searchParams } = new URL(req.url);
+  const feed = searchParams.get("feed") === "1";
+
+  // For general list, citizens can see their own? 
+  // Actually the dashboard needs full list. 
+  // Let's restrict feed to staff.
+  if (feed && session.user.role !== ROLES.ADMIN && session.user.role !== ROLES.SHELTER_MANAGER) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const repo = new RequestRepository();
+  const docs = await repo.findAll();
+
+  const requests = docs.map((d) => ({
+    id: d._id.toString(),
+    citizenId: d.citizenId,
+    type: d.type,
+    status: d.status,
+    severity: d.severity,
+    lat: d.lat,
+    lng: d.lng,
+    description: d.description,
+  }));
+
+  if (feed) {
+    return NextResponse.json({
+      requests,
+      allocationEvents: DashboardObserver.snapshot(),
+    });
+  }
+
+  // Filter for citizens and shelter managers to only see their own if not admin
+  const filtered = (session.user.role === ROLES.ADMIN)
+    ? requests
+    : requests.filter(r => r.citizenId === session.user.id);
+
+  return NextResponse.json({ requests: filtered });
+}
+
 export async function POST(req: Request) {
   if (!isMongoConfigured()) {
     return NextResponse.json(

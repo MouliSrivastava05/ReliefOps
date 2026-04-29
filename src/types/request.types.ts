@@ -1,4 +1,4 @@
-export type RequestType = "medical" | "shelter" | "food";
+export type RequestType = "medical" | "shelter" | "food" | "volunteer";
 
 export type RequestDTO = {
   id: string;

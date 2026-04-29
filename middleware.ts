@@ -23,7 +23,15 @@ export async function middleware(request: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  if (adminPaths.some((p) => pathname.startsWith(p))) {
+  if (pathname.startsWith("/dashboard")) {
+    if (!token) return NextResponse.redirect(new URL("/login", request.url));
+    if (token.role !== "admin") {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
+  const otherAdminPaths = ["/requests", "/resources", "/volunteers"];
+  if (otherAdminPaths.some((p) => pathname.startsWith(p))) {
     if (!token) {
       return NextResponse.redirect(new URL("/login", request.url));
     }

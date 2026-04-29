@@ -74,10 +74,11 @@ export function SiteHeader() {
             )}
             {showAdmin && (
               <>
-                <NavLink href="/dashboard">Dashboard</NavLink>
+                {role === ROLES.ADMIN && <NavLink href="/dashboard">Dashboard</NavLink>}
                 <NavLink href="/requests">Requests</NavLink>
                 <NavLink href="/resources">Resources</NavLink>
                 <NavLink href="/volunteers">Volunteers</NavLink>
+                <NavLink href="/track">Track</NavLink>
               </>
             )}
           </nav>

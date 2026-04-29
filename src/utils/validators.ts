@@ -5,5 +5,5 @@ export function isNonEmptyString(v: unknown): v is string {
 }
 
 export function isRequestType(v: unknown): v is RequestType {
-  return v === "medical" || v === "shelter" || v === "food";
+  return v === "medical" || v === "shelter" || v === "food" || v === "volunteer";
 }

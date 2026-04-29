@@ -1,5 +1,12 @@
 "use client";
 
+import { useSession } from "next-auth/react";
+
 export function useAuth() {
-  return { user: null, loading: false };
+  const { data: session, status, update } = useSession();
+  return {
+    user: session?.user ?? null,
+    loading: status === "loading",
+    refresh: update,
+  };
 }
