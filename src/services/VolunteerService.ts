@@ -2,6 +2,14 @@ import { UserModel } from "@/domain/models/UserModel";
 import { VolunteerModel } from "@/domain/models/VolunteerModel";
 
 export class VolunteerService {
+  async toggleAvailability(userId: string): Promise<boolean> {
+    const vol = await VolunteerModel.findOne({ userId }).exec();
+    if (!vol) throw new Error("Volunteer profile not found");
+    vol.available = !vol.available;
+    await vol.save();
+    return vol.available as boolean;
+  }
+
   async listWithUsers() {
     const vols = await VolunteerModel.find().lean().exec();
     const out = [];
