@@ -96,7 +96,7 @@ export default function TrackPage() {
                       </div>
                     </div>
 
-                    {data.description && (
+                    {!!data.description && (
                       <div>
                         <p className="text-[0.65rem] font-bold uppercase tracking-wider text-ink-faint">Description</p>
                         <p className="mt-2 text-sm leading-relaxed text-ink-muted">

@@ -3,6 +3,7 @@ import { CrisisRequest } from "../../request/CrisisRequest";
 import { FoodRequest } from "../../request/FoodRequest";
 import { MedicalRequest } from "../../request/MedicalRequest";
 import { ShelterRequest } from "../../request/ShelterRequest";
+import { VolunteerRequest } from "../../request/VolunteerRequest";
 
 export type RequestKind = RequestType;
 
@@ -20,6 +21,8 @@ export class RequestFactory {
         return new ShelterRequest(id, citizenId, severity);
       case "food":
         return new FoodRequest(id, citizenId, severity);
+      case "volunteer":
+        return new VolunteerRequest(id, citizenId, severity);
       default: {
         const _exhaustive: never = kind;
         return _exhaustive;

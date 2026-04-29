@@ -26,7 +26,7 @@ export async function GET() {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const volunteer = await VolunteerModel.findOne({ userId: session.user.id }).lean().exec();
+  const volunteer = (await VolunteerModel.findOne({ userId: session.user.id }).lean().exec()) as any;
   if (!volunteer) {
     return NextResponse.json({ error: "Volunteer profile not found" }, { status: 404 });
   }
