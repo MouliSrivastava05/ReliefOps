@@ -19,12 +19,4 @@ export class VolunteerService {
     }
     return out;
   }
-
-  async toggleAvailability(userId: string) {
-    const vol = await VolunteerModel.findOne({ userId }).exec();
-    if (!vol) throw new Error("Volunteer profile not found");
-    vol.available = !vol.available;
-    await vol.save();
-    return vol.available;
-  }
 }

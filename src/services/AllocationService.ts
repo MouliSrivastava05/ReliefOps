@@ -3,7 +3,6 @@ import type { ObserverManager } from "@/domain/patterns/observer/ObserverManager
 import type { AllocationStrategy } from "@/domain/patterns/strategy/AllocationStrategy";
 import type { IRequestRepository } from "@/domain/repositories/interfaces/IRequestRepository";
 import type { IResourceRepository } from "@/domain/repositories/interfaces/IResourceRepository";
-import { VolunteerRepository } from "@/domain/repositories/VolunteerRepository";
 
 /** Core matching engine — strategy + atomic resource reserve + observer notify */
 export class AllocationService {
@@ -15,23 +14,14 @@ export class AllocationService {
   ) {}
 
   async run(requestId: string, strategyName: string) {
-    const req = await this.requests.findById(requestId);
-    if (!req) return { ok: false as const, message: "Request not found" };
-
     const pick = await this.strategy.allocate(requestId);
     if (!pick) {
       return { ok: false as const, message: "No allocation candidate" };
     }
 
-    const isVolunteer = req.type === "volunteer";
-    const volRepo = new VolunteerRepository();
-
-    const reserved = isVolunteer
-      ? await volRepo.reserveOne(pick.resourceId)
-      : await this.resources.reserveOneUnit(pick.resourceId);
-
+    const reserved = await this.resources.reserveOneUnit(pick.resourceId);
     if (!reserved) {
-      return { ok: false as const, message: isVolunteer ? "Volunteer no longer available" : "Resource unavailable (race)" };
+      return { ok: false as const, message: "Resource unavailable (race)" };
     }
 
     try {
@@ -41,8 +31,7 @@ export class AllocationService {
         strategy: strategyName,
       });
     } catch {
-      if (isVolunteer) await volRepo.releaseOne(pick.resourceId);
-      else await this.resources.releaseOneUnit(pick.resourceId);
+      await this.resources.releaseOneUnit(pick.resourceId);
       return { ok: false as const, message: "Duplicate allocation" };
     }
 
@@ -53,8 +42,7 @@ export class AllocationService {
     );
     if (!updated) {
       await AllocationModel.deleteOne({ requestId });
-      if (isVolunteer) await volRepo.releaseOne(pick.resourceId);
-      else await this.resources.releaseOneUnit(pick.resourceId);
+      await this.resources.releaseOneUnit(pick.resourceId);
       return { ok: false as const, message: "Request state changed" };
     }
 

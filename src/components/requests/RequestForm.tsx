@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useCreateRequest } from "@/hooks/useRequests";
 
-export function RequestForm({ fixedType }: { fixedType?: string }) {
+export function RequestForm() {
   const create = useCreateRequest();
   const [msg, setMsg] = useState<string | null>(null);
 
@@ -11,7 +11,7 @@ export function RequestForm({ fixedType }: { fixedType?: string }) {
     e.preventDefault();
     setMsg(null);
     const form = e.currentTarget;
-    const type = fixedType || (form.elements.namedItem("type") as HTMLSelectElement).value;
+    const type = (form.elements.namedItem("type") as HTMLSelectElement).value;
     const severity = Number(
       (form.elements.namedItem("severity") as HTMLInputElement).value,
     );
@@ -42,22 +42,14 @@ export function RequestForm({ fixedType }: { fixedType?: string }) {
   return (
     <form onSubmit={onSubmit} className="ro-card max-w-xl space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
-        {!fixedType ? (
-          <label className="ro-label sm:col-span-1">
-            Type
-            <select name="type" required className="ro-select">
-              <option value="medical">Medical</option>
-              <option value="shelter">Shelter</option>
-              <option value="food">Food</option>
-              <option value="volunteer">Volunteer</option>
-            </select>
-          </label>
-        ) : (
-          <div className="sm:col-span-1">
-             <p className="ro-label mb-1">Request Type</p>
-             <p className="ro-input bg-canvas-deep/50 capitalize">{fixedType}</p>
-          </div>
-        )}
+        <label className="ro-label sm:col-span-1">
+          Type
+          <select name="type" required className="ro-select">
+            <option value="medical">Medical</option>
+            <option value="shelter">Shelter</option>
+            <option value="food">Food</option>
+          </select>
+        </label>
         <label className="ro-label sm:col-span-1">
           Severity (1–5)
           <input
@@ -72,11 +64,11 @@ export function RequestForm({ fixedType }: { fixedType?: string }) {
         </label>
       </div>
       <label className="ro-label">
-        {fixedType === "volunteer" ? "What skills or tasks are needed?" : "What do you need?"}
+        What do you need?
         <textarea
           name="description"
           rows={4}
-          placeholder={fixedType === "volunteer" ? "Example: 3 people for debris removal, medical assistance, etc." : "Be specific: supplies, mobility, headcount, timing…"}
+          placeholder="Be specific: supplies, mobility, headcount, timing…"
           className="ro-input resize-y"
         />
       </label>

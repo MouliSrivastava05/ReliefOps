@@ -44,7 +44,6 @@ export default function TrackPage() {
           className="ro-input mt-0 flex-1 font-mono text-sm"
         />
         <button
-          id="lookup-btn"
           type="button"
           onClick={load}
           disabled={loading}
@@ -59,77 +58,27 @@ export default function TrackPage() {
         </p>
       )}
       {data && (
-        <div className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <div className="overflow-hidden rounded-2xl border border-canvas-line bg-surface/50 shadow-lift backdrop-blur-sm">
-            {/* Header / ID Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-canvas-line bg-canvas-deep/30 px-6 py-4">
-              <div className="flex items-center gap-3">
-                <div className="h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary-rgb),0.6)]" />
-                <span className="font-mono text-xs font-medium tracking-tight text-ink-muted">
-                  ID: {String(data.id)}
-                </span>
-              </div>
-              <div className="flex gap-3">
-                 <span className="rounded-full bg-canvas-deep px-3 py-1 text-[0.65rem] font-bold uppercase tracking-wider text-ink-muted">
-                   {String(data.type)}
-                 </span>
-                 <StatusChip status={status} />
-              </div>
-            </div>
-
-            <div className="grid gap-0 lg:grid-cols-[1fr_20rem]">
-              {/* Left Column: Details */}
-              <div className="space-y-8 p-8">
-                <div>
-                  <p className="ro-eyebrow mb-4">Request Details</p>
-                  <div className="space-y-6">
-                    <div className="grid grid-cols-2 gap-8">
-                      <div>
-                        <p className="text-[0.65rem] font-bold uppercase tracking-wider text-ink-faint">Severity</p>
-                        <p className="mt-1 text-sm font-medium text-ink">Level {String(data.severity)}</p>
-                      </div>
-                      <div>
-                        <p className="text-[0.65rem] font-bold uppercase tracking-wider text-ink-faint">Submitted</p>
-                        <p className="mt-1 text-sm font-medium text-ink">
-                          {data.createdAt ? new Date(String(data.createdAt)).toLocaleDateString() : "Unknown"}
-                        </p>
-                      </div>
-                    </div>
-
-                    {!!data.description && (
-                      <div>
-                        <p className="text-[0.65rem] font-bold uppercase tracking-wider text-ink-faint">Description</p>
-                        <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-                          {String(data.description)}
-                        </p>
-                      </div>
-                    )}
-
-                    <div className="rounded-xl bg-canvas-deep/40 p-4 border border-canvas-line/50">
-                       <p className="text-[0.65rem] font-bold uppercase tracking-wider text-ink-faint mb-2 text-center">Deployment Location</p>
-                       <p className="font-mono text-[0.7rem] text-center text-ink-muted tracking-tight">
-                         {Number(data.lat).toFixed(4)}°N, {Number(data.lng).toFixed(4)}°W
-                       </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column: Timeline */}
-              <div className="border-l border-canvas-line bg-canvas-deep/20 p-8">
-                <p className="ro-eyebrow mb-6">Live Progress</p>
-                <RequestTimeline current={status} />
-              </div>
-            </div>
+        <div className="ro-card mt-10 space-y-5">
+          <div className="flex flex-wrap items-center gap-2">
+            <StatusChip status={status} />
+            <span className="text-sm text-ink-muted">
+              {String(data.type)} · severity {String(data.severity)}
+            </span>
           </div>
-
-          <p className="mt-6 text-center text-xs text-ink-faint italic">
-            Statuses update in real-time as coordinators process your request.
-          </p>
+          <div>
+            <p className="ro-eyebrow mb-2">Progress</p>
+            <RequestTimeline current={status} />
+          </div>
+          {data.description ? (
+            <div>
+              <p className="ro-eyebrow mb-2">Details</p>
+              <p className="text-sm leading-relaxed text-ink-muted">
+                {String(data.description)}
+              </p>
+            </div>
+          ) : null}
         </div>
       )}
-
-
     </main>
   );
 }

@@ -30,27 +30,6 @@ function VolunteerPortalContent() {
     },
     enabled: session?.user?.role === ROLES.VOLUNTEER,
   });
-  
-  const { data: meData, isLoading: meLoading } = useQuery({
-    queryKey: ["me-volunteer"],
-    queryFn: async () => {
-      const res = await fetch("/api/volunteers/me");
-      if (!res.ok) throw new Error("Failed to load profile");
-      return res.json() as Promise<{ available: boolean }>;
-    },
-    enabled: !!session?.user?.id,
-  });
-
-  const toggleAvailability = useMutation({
-    mutationFn: async () => {
-      const res = await fetch("/api/volunteers/me/availability", { method: "POST" });
-      if (!res.ok) throw new Error("Failed to toggle availability");
-      return res.json();
-    },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["me-volunteer"] });
-    },
-  });
 
   const myInterests = interestData?.interests ?? [];
   const raisedSet = new Set(myInterests.map((i) => i.requestId));
@@ -102,29 +81,9 @@ function VolunteerPortalContent() {
         <h1 className="ro-title mt-2">Volunteer portal</h1>
         <p className="ro-lead">
           Live feed of active relief requests. Click{" "}
+          <strong>I&apos;ll help</strong> to raise your hand — the admin team
           will see your interest and coordinate your assignment.
         </p>
-      </div>
-
-      <div className="ro-card flex flex-col sm:flex-row items-center justify-between gap-4 border-primary/20 bg-primary/5">
-        <div>
-          <h2 className="text-sm font-semibold text-ink">Availability Status</h2>
-          <p className="text-xs text-ink-muted">
-            Toggle this to show admins if you are currently ready to be deployed.
-          </p>
-        </div>
-        <button
-          onClick={() => toggleAvailability.mutate()}
-          disabled={meLoading || toggleAvailability.isPending}
-          className={`ro-btn flex items-center gap-2 px-6 py-2 transition-all border-2 ${
-            meData?.available
-              ? "bg-green-50 border-green-500 text-green-700 hover:bg-green-100"
-              : "bg-canvas-deep border-canvas-line text-ink-muted hover:bg-canvas-line"
-          }`} 
-        >
-          <span className={`h-2 w-2 rounded-full ${meData?.available ? "bg-green-500 animate-pulse" : "bg-ink-faint"}`} />
-          {meLoading ? "Syncing…" : meData?.available ? "I'm Available" : "I'm Off-shift"}
-        </button>
       </div>
 
       {isLoading && (

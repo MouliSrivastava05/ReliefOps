@@ -8,7 +8,7 @@ import { ResourceModel } from "@/domain/models/ResourceModel";
 
 export async function POST(
   req: Request,
-  { params }: any
+  { params }: { params: Promise<{ id: string }> },
 ) {
   if (!isMongoConfigured()) {
     return NextResponse.json(

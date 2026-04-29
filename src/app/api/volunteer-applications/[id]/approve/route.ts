@@ -9,7 +9,7 @@ import { ROLES } from "@/constants/roles.constants";
 
 export async function POST(
   _req: Request,
-  { params }: any
+  { params }: { params: Promise<{ id: string }> },
 ) {
   if (!isMongoConfigured()) {
     return NextResponse.json({ error: "MONGODB_URI not set" }, { status: 503 });
@@ -27,7 +27,7 @@ export async function POST(
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  if (session.user.role !== ROLES.ADMIN) {
+  if (session.user.role !== ROLES.ADMIN && session.user.role !== ROLES.SHELTER_MANAGER) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

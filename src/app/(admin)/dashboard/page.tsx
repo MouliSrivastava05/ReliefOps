@@ -20,7 +20,7 @@ export default function AdminDashboardPage() {
   }));
 
   return (
-    <RoleGuard role={[ROLES.ADMIN]}>
+    <RoleGuard role={[ROLES.ADMIN, ROLES.SHELTER_MANAGER]}>
       <main className="ro-page-wide space-y-10">
         <div className="max-w-2xl">
           <p className="ro-eyebrow">Operations</p>

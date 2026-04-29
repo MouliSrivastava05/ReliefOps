@@ -59,8 +59,8 @@ export async function GET(req: Request) {
     });
   }
 
-  // Filter for citizens and shelter managers to only see their own if not admin
-  const filtered = (session.user.role === ROLES.ADMIN)
+  // Filter for citizens to only see their own if not staff
+  const filtered = (session.user.role === ROLES.ADMIN || session.user.role === ROLES.SHELTER_MANAGER)
     ? requests
     : requests.filter(r => r.citizenId === session.user.id);
 
