@@ -9,7 +9,7 @@ import { ROLES } from "@/constants/roles.constants";
 
 export async function POST(
   _req: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: any
 ) {
   if (!isMongoConfigured()) {
     return NextResponse.json({ error: "MONGODB_URI not set" }, { status: 503 });

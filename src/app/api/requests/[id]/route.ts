@@ -5,7 +5,7 @@ import { RequestRepository } from "@/domain/repositories/RequestRepository";
 
 type Params = { params: Promise<{ id: string }> };
 
-export async function GET(_req: Request, { params }: Params) {
+export async function GET(_req: Request, { params }: any) {
   const { id } = await params;
   
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -38,7 +38,7 @@ export async function GET(_req: Request, { params }: Params) {
   }
 }
 
-export async function PATCH(_req: Request, { params }: Params) {
+export async function PATCH(_req: Request, { params }: any) {
   const { id } = await params;
   return NextResponse.json({ id, updated: true });
 }
