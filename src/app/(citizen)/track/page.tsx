@@ -51,7 +51,7 @@ export default function TrackPage() {
         </p>
       </div>
 
-      <div className="mt-10 ro-card" style={{ borderStyle: "dashed" }}>
+      <div className="mt-10 ro-card border-dashed">
         <label className="ro-label">Tracking ID</label>
         <div className="flex flex-col gap-3 sm:flex-row mt-2">
           <input
@@ -66,11 +66,7 @@ export default function TrackPage() {
           </button>
         </div>
         {id && (
-          <button
-            onClick={copyId}
-            className="mt-3 text-[0.6rem] font-semibold uppercase tracking-wider transition-colors"
-            style={{ color: "var(--color-action)" }}
-          >
+          <button onClick={copyId} className="mt-3 text-[0.6rem] font-semibold uppercase tracking-wider text-action transition-colors">
             {copied ? "✓ Copied" : "Copy ID"}
           </button>
         )}
@@ -88,28 +84,28 @@ export default function TrackPage() {
 
       {data && (
         <div className="mt-10 space-y-6 ro-fade-up">
-          <div className="ro-card" style={{ borderLeftWidth: "4px", borderLeftColor: "var(--color-action)" }}>
+          <div className="ro-card border-l-4 border-l-action">
             <div className="flex flex-wrap items-center gap-3 mb-6">
               <StatusChip status={status} />
               <PriorityBadge level={String(data.severity)} />
               <span className="ro-badge">{String(data.type)}</span>
             </div>
 
-            <div className="py-5 border-y" style={{ borderColor: "var(--color-border)" }}>
+            <div className="py-5 border-y border-border">
               <RequestTimeline current={status} />
             </div>
 
             {data.description ? (
               <div className="mt-5">
                 <p className="ro-label">Details</p>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--color-ink-secondary)" }}>
+                <p className="text-sm leading-relaxed text-ink-secondary">
                   {String(data.description)}
                 </p>
               </div>
             ) : null}
           </div>
 
-          <div className="ro-card" style={{ backgroundColor: "var(--color-action-soft)" }}>
+          <div className="ro-card bg-action-soft">
             <h3 className="ro-section-title mb-3">What happens next?</h3>
             <ul className="space-y-2.5">
               {[
@@ -118,9 +114,9 @@ export default function TrackPage() {
                 { step: "Response", desc: "Help is dispatched to your location." },
               ].map((item, i) => (
                 <li key={i} className="flex gap-3 text-xs">
-                  <span className="font-bold" style={{ color: "var(--color-action)" }}>{i + 1}.</span>
-                  <span style={{ color: "var(--color-ink-secondary)" }}>
-                    <strong style={{ color: "var(--color-ink)" }}>{item.step}:</strong> {item.desc}
+                  <span className="font-bold text-action">{i + 1}.</span>
+                  <span className="text-ink-secondary">
+                    <strong className="text-ink">{item.step}:</strong> {item.desc}
                   </span>
                 </li>
               ))}

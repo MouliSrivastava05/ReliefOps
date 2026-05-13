@@ -4,69 +4,40 @@
 
 /* ═══════════════════════════════════════════════════════════════
    ReliefOps Design System — V3 "Calm Operations"
-   Philosophy: Minimal, intelligent, emotionally calming,
-   and operationally excellent.
-   Target Aesthetic: Mission control meets calm productivity.
+   Philosophy: Minimal, intelligent, emotionally calming.
    ═══════════════════════════════════════════════════════════════ */
 
 @layer base {
   :root {
     color-scheme: light;
+    
+    /* ── Foundation Variables (for inline style support) ── */
+    --color-trust: #0f172a;
+    --color-action: #0d9488;
+    --color-critical: #dc2626;
+    --color-hazard: #d97706;
+    --color-safe: #059669;
+    --color-steady: #0284c7;
+    --color-ground: #f8fafc;
+    --color-surface: #ffffff;
+    --color-border: #e2e8f0;
+    --color-ink: #0f172a;
+  }
 
-    /* ── Foundation ── */
-    --color-trust:       #0f172a;
-    --color-trust-light: #1e293b;
-    --color-trust-soft:  #f1f5f9;
-
-    /* ── Accent (Muted Teal) ── */
-    --color-action:      #0d9488;
-    --color-action-soft: #f0fdfa;
-    --color-action-muted: #5eead4;
-
-    /* ── Signals ── */
-    --color-critical:    #dc2626;
-    --color-critical-soft: #fef2f2;
-    --color-hazard:      #d97706;
-    --color-hazard-soft:  #fffbeb;
-    --color-caution:     #ca8a04;
-    --color-safe:        #059669;
-    --color-safe-soft:   #ecfdf5;
-    --color-steady:      #0284c7;
-    --color-steady-soft: #f0f9ff;
-
-    /* ── Neutrals ── */
-    --color-ground:      #f8fafc;
-    --color-surface:     #ffffff;
-    --color-surface-dim: #f1f5f9;
-    --color-surface-raised: #ffffff;
-    --color-border:      #e2e8f0;
-    --color-border-strong: #cbd5e1;
-    --color-ink:         #0f172a;
-    --color-ink-secondary: #475569;
-    --color-ink-tertiary:  #94a3b8;
-    --color-ink-ghost:     #cbd5e1;
-
-    /* ── Radius ── */
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 16px;
-    --radius-xl: 24px;
-
-    /* ── Shadows ── */
-    --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.03);
-    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.04);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.03);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.03);
-    --shadow-glow: 0 0 40px -8px rgba(13, 148, 136, 0.12);
-    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.04), 0 0 0 1px rgb(0 0 0 / 0.02);
+  html {
+    @apply antialiased;
+    font-family: var(--font-sans), system-ui, sans-serif;
   }
 
   body {
-    background-color: var(--color-ground);
-    color: var(--color-ink);
-    -webkit-font-smoothing: antialiased;
+    @apply bg-ground text-ink min-h-screen;
+    font-family: var(--font-sans), system-ui, sans-serif;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3, h4, .ro-title {
+    font-family: var(--font-display), serif;
   }
 }
 
@@ -74,45 +45,33 @@
   /* ── Layouts ── */
   .ro-page { @apply mx-auto max-w-3xl px-5 pb-24 pt-16 sm:px-8; }
   .ro-page-wide { @apply mx-auto max-w-7xl px-5 pb-24 pt-16 sm:px-8; }
+  .ro-page-narrow { @apply mx-auto max-w-md px-5 pb-24 pt-16 sm:px-8; }
 
   /* ── Typography ── */
   .ro-overline {
-    @apply text-[0.6rem] font-semibold uppercase tracking-[0.2em];
-    color: var(--color-ink-tertiary);
+    @apply text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-ink-tertiary;
   }
   .ro-eyebrow {
-    @apply text-[0.65rem] font-semibold uppercase tracking-[0.15em];
-    color: var(--color-action);
+    @apply text-[0.65rem] font-semibold uppercase tracking-[0.15em] text-action;
   }
   .ro-title {
-    @apply text-3xl font-extrabold tracking-tight sm:text-5xl;
-    color: var(--color-ink);
+    @apply text-3xl font-extrabold tracking-tight text-ink sm:text-5xl;
     line-height: 1.08;
     letter-spacing: -0.025em;
   }
   .ro-lead {
-    @apply mt-5 text-base leading-relaxed sm:text-lg;
-    color: var(--color-ink-secondary);
+    @apply mt-5 text-base leading-relaxed text-ink-secondary sm:text-lg font-sans;
   }
   .ro-section-title {
-    @apply text-sm font-semibold;
-    color: var(--color-ink);
+    @apply text-sm font-semibold text-ink font-sans;
+  }
+  .ro-link {
+    @apply font-semibold text-action hover:underline;
   }
 
   /* ── Cards ── */
   .ro-card {
-    @apply rounded-2xl border p-6;
-    border-color: var(--color-border);
-    background-color: var(--color-surface);
-    box-shadow: var(--shadow-card);
-  }
-  .ro-card-glass {
-    @apply rounded-2xl border p-6;
-    border-color: rgba(226, 232, 240, 0.6);
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: var(--shadow-sm);
+    @apply rounded-2xl border border-border bg-surface p-6 shadow-card;
   }
 
   /* ── Tiles ── */
@@ -120,32 +79,37 @@
     @apply grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
   }
   .ro-tile {
-    @apply relative flex flex-col items-center justify-center gap-3 rounded-2xl border-2 p-6 text-center transition-all duration-300 cursor-pointer;
-    border-color: var(--color-border);
-    background-color: var(--color-surface);
+    @apply relative flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-border bg-surface p-6 text-center transition-all duration-300 cursor-pointer;
   }
   .ro-tile:hover {
-    border-color: var(--color-action);
-    background-color: var(--color-action-soft);
-    box-shadow: var(--shadow-glow);
-    transform: translateY(-2px);
-  }
-  .ro-tile:active {
-    transform: scale(0.97);
+    @apply border-action bg-action-soft shadow-glow -translate-y-0.5;
   }
   .ro-tile-selected {
-    border-color: var(--color-action);
-    background-color: var(--color-action-soft);
-    box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.08), var(--shadow-glow);
+    @apply border-action bg-action-soft;
+    box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.08);
   }
   .ro-tile-icon {
-    @apply flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300;
-    background-color: var(--color-surface-dim);
-    color: var(--color-ink-secondary);
+    @apply flex h-12 w-12 items-center justify-center rounded-xl bg-surface-dim text-ink-secondary transition-all duration-300;
   }
   .ro-tile-selected .ro-tile-icon {
-    background-color: var(--color-action);
-    color: white;
+    @apply bg-action text-white;
+  }
+
+  /* ── Buttons ── */
+  .ro-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-all duration-200 active:scale-[0.97] disabled:opacity-40;
+  }
+  .ro-btn-primary {
+    @apply ro-btn bg-trust text-white shadow-sm hover:bg-trust-light hover:shadow-md hover:-translate-y-px;
+  }
+  .ro-btn-action {
+    @apply ro-btn bg-action text-white shadow-sm hover:opacity-90 hover:shadow-glow hover:-translate-y-px;
+  }
+  .ro-btn-secondary {
+    @apply ro-btn border border-border bg-surface text-ink hover:bg-surface-dim;
+  }
+  .ro-btn-ghost {
+    @apply ro-btn text-ink-secondary hover:bg-surface-dim hover:text-ink;
   }
 
   /* ── Alerts ── */
@@ -154,114 +118,39 @@
     animation: ro-alert-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .ro-alert-success {
-    @apply ro-alert;
-    border-color: rgba(5, 150, 105, 0.15);
-    background-color: var(--color-safe-soft);
-    color: var(--color-safe);
+    @apply ro-alert border-safe/15 bg-safe-soft text-safe;
   }
   .ro-alert-error {
-    @apply ro-alert;
-    border-color: rgba(220, 38, 38, 0.15);
-    background-color: var(--color-critical-soft);
-    color: var(--color-critical);
+    @apply ro-alert border-critical/15 bg-critical-soft text-critical;
   }
   .ro-alert-warning {
-    @apply ro-alert;
-    border-color: rgba(217, 119, 6, 0.15);
-    background-color: var(--color-hazard-soft);
-    color: var(--color-hazard);
+    @apply ro-alert border-hazard/15 bg-hazard-soft text-hazard;
+  }
+  .ro-alert-info {
+    @apply ro-alert border-action/15 bg-action-soft text-action;
   }
 
-  /* ── Buttons ── */
-  .ro-btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none;
-  }
-  .ro-btn:active { transform: scale(0.97); }
-
-  .ro-btn-primary {
-    @apply ro-btn text-white;
-    background-color: var(--color-trust);
-    box-shadow: var(--shadow-sm);
-  }
-  .ro-btn-primary:hover {
-    background-color: var(--color-trust-light);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-1px);
-  }
-  .ro-btn-action {
-    @apply ro-btn text-white;
-    background-color: var(--color-action);
-    box-shadow: var(--shadow-sm);
-  }
-  .ro-btn-action:hover {
-    opacity: 0.9;
-    box-shadow: var(--shadow-glow);
-    transform: translateY(-1px);
-  }
-  .ro-btn-secondary {
-    @apply ro-btn border;
-    border-color: var(--color-border);
-    background-color: var(--color-surface);
-    color: var(--color-ink);
-  }
-  .ro-btn-secondary:hover {
-    background-color: var(--color-surface-dim);
-    border-color: var(--color-border-strong);
-  }
-  .ro-btn-ghost {
-    @apply ro-btn;
-    color: var(--color-ink-secondary);
-  }
-  .ro-btn-ghost:hover {
-    background-color: var(--color-surface-dim);
-    color: var(--color-ink);
-  }
-  .ro-btn-sos {
-    @apply ro-btn text-white text-base py-4 px-10 font-bold;
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
-    box-shadow: 0 8px 24px -4px rgba(220, 38, 38, 0.25);
-    animation: sos-breathe 3s ease-in-out infinite;
-  }
-  .ro-btn-sos:hover {
-    box-shadow: 0 12px 32px -4px rgba(220, 38, 38, 0.35);
-    transform: translateY(-2px);
-  }
-
-  /* ── Inputs ── */
+  /* ── Inputs & Selects ── */
   .ro-input {
-    @apply w-full rounded-xl border px-4 py-3 text-sm transition-all duration-200 outline-none;
-    border-color: var(--color-border);
-    background-color: var(--color-surface);
+    @apply w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm transition-all duration-200 outline-none placeholder:text-ink-ghost;
   }
   .ro-input:focus {
-    border-color: var(--color-action);
+    @apply border-action;
     box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.08);
   }
-  .ro-input::placeholder {
-    color: var(--color-ink-ghost);
+  .ro-select {
+    @apply w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm transition-all duration-200 outline-none appearance-none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+  }
+  .ro-select:focus {
+    @apply border-action;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.08);
   }
   .ro-label {
-    @apply block text-xs font-semibold uppercase tracking-wider mb-2;
-    color: var(--color-ink-secondary);
-  }
-
-  /* ── Badges ── */
-  .ro-badge {
-    @apply inline-flex items-center rounded-lg px-2.5 py-1 text-[0.6rem] font-semibold uppercase tracking-wider;
-    border: 1px solid var(--color-border);
-    background-color: var(--color-surface-dim);
-    color: var(--color-ink-secondary);
-  }
-  .ro-status-dot {
-    @apply h-2 w-2 rounded-full;
-  }
-
-  /* ── Skeleton ── */
-  .ro-skeleton {
-    background: linear-gradient(90deg, var(--color-surface-dim) 25%, rgba(241,245,249,0.5) 50%, var(--color-surface-dim) 75%);
-    background-size: 200% 100%;
-    animation: ro-shimmer 1.8s ease-in-out infinite;
-    border-radius: var(--radius-lg);
+    @apply block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-2;
   }
 }
 
@@ -281,28 +170,16 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes ro-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+.ro-fade-up { animation: ro-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-@keyframes ro-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+.ro-live-dot {
+  @apply h-2 w-2 rounded-full bg-safe;
+  animation: live-pulse 2s ease-in-out infinite;
 }
 
 @keyframes live-pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.5; transform: scale(0.85); }
-}
-
-.ro-fade-up { animation: ro-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.ro-fade-in { animation: ro-fade-in 0.5s ease-out forwards; }
-
-.ro-live-dot {
-  @apply h-2 w-2 rounded-full;
-  background-color: var(--color-safe);
-  animation: live-pulse 2s ease-in-out infinite;
 }
 
 @layer utilities {

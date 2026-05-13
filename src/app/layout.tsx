@@ -29,9 +29,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${sans.variable}`}
+      className={`${display.variable} ${sans.variable} antialiased`}
     >
-      <body className="min-h-screen font-sans antialiased" style={{ backgroundColor: "var(--color-ground)" }}>
+      <body className="min-h-screen font-sans">
         <AppProviders>
           <SiteHeader />
           <div className="min-h-[calc(100vh-3.5rem)]">{children}</div>

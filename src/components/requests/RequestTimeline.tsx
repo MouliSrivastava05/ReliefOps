@@ -1,17 +1,6 @@
 "use client";
 
-/**
- * RequestTimeline — Clean stepper visualization
- */
-
-const MAIN_PATH = [
-  "CREATED",
-  "VALIDATED",
-  "QUEUED",
-  "ALLOCATED",
-  "IN_PROGRESS",
-  "COMPLETED",
-] as const;
+const MAIN_PATH = ["CREATED", "VALIDATED", "QUEUED", "ALLOCATED", "IN_PROGRESS", "COMPLETED"] as const;
 
 const STEP_LABELS: Record<string, string> = {
   CREATED: "Received",
@@ -48,44 +37,31 @@ export function RequestTimeline({ current }: { current: string }) {
           <li key={step} className="flex items-center">
             <div className="flex items-center gap-2.5">
               <div
-                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[0.6rem] font-bold transition-all"
-                style={{
-                  backgroundColor: isCompleted
-                    ? "var(--color-safe)"
+                className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[0.6rem] font-bold transition-all ${
+                  isCompleted
+                    ? "bg-safe text-white"
                     : isCurrent
-                      ? "var(--color-action)"
-                      : "var(--color-surface-dim)",
-                  color: isCompleted || isCurrent ? "#fff" : "var(--color-ink-tertiary)",
-                  boxShadow: isCurrent ? "0 0 0 4px rgba(13,148,136,0.1)" : "none",
-                }}
+                      ? "bg-action text-white shadow-[0_0_0_4px_rgba(13,148,136,0.1)]"
+                      : "bg-surface-dim text-ink-tertiary"
+                }`}
               >
                 {isCompleted ? "✓" : i + 1}
               </div>
               <div className="flex flex-col">
-                <span
-                  className="text-[0.6rem] uppercase tracking-wider leading-none font-semibold"
-                  style={{
-                    color: isCompleted || isCurrent ? "var(--color-ink)" : "var(--color-ink-tertiary)",
-                  }}
-                >
+                <span className={`text-[0.6rem] uppercase tracking-wider leading-none font-semibold ${
+                  isCompleted || isCurrent ? "text-ink" : "text-ink-tertiary"
+                }`}>
                   {STEP_LABELS[step] ?? step}
                 </span>
                 {isCurrent && (
-                  <span className="text-[0.5rem] font-semibold mt-1" style={{ color: "var(--color-action)" }}>
-                    Current
-                  </span>
+                  <span className="text-[0.5rem] font-semibold mt-1 text-action">Current</span>
                 )}
               </div>
             </div>
             {i < MAIN_PATH.length - 1 && (
-              <div
-                className="mx-3 h-px w-5 sm:w-8"
-                style={{
-                  backgroundColor: isFuture ? "transparent" : "var(--color-safe)",
-                  borderTop: isFuture ? "2px dashed var(--color-border)" : "none",
-                  height: isFuture ? "0" : "2px",
-                }}
-              />
+              <div className={`mx-3 w-5 sm:w-8 ${
+                isFuture ? "border-t-2 border-dashed border-border" : "h-0.5 bg-safe"
+              }`} />
             )}
           </li>
         );

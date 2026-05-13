@@ -21,46 +21,43 @@ const TYPE_ICONS: Record<string, React.ElementType> = {
   other: IconEmergency,
 };
 
-const SEVERITY_ACCENTS: Record<number, string> = {
-  1: "var(--color-steady)",
-  2: "var(--color-action)",
-  3: "var(--color-caution)",
-  4: "var(--color-hazard)",
-  5: "var(--color-critical)",
+const SEVERITY_BORDERS: Record<number, string> = {
+  1: "border-l-steady",
+  2: "border-l-action",
+  3: "border-l-caution",
+  4: "border-l-hazard",
+  5: "border-l-critical",
 };
 
 export function RequestCard({ id, type, status, severity, description, actions }: Props) {
-  const accent = SEVERITY_ACCENTS[Math.max(1, Math.min(5, severity))] ?? "var(--color-border)";
+  const borderClass = SEVERITY_BORDERS[Math.max(1, Math.min(5, severity))] ?? "border-l-border";
   const Icon = TYPE_ICONS[type.toLowerCase()] || TYPE_ICONS.other;
 
   return (
-    <article
-      className="group ro-card !p-0 overflow-hidden transition-all duration-300 hover:shadow-md"
-      style={{ borderLeftWidth: "4px", borderLeftColor: accent }}
-    >
+    <article className={`group ro-card !p-0 overflow-hidden transition-all duration-300 hover:shadow-md border-l-4 ${borderClass}`}>
       <div className="p-5 sm:p-6">
         <div className="flex flex-wrap items-center gap-2.5">
           <StatusChip status={status} />
           <PriorityBadge level={severity} />
-          <div className="h-3.5 w-px mx-0.5" style={{ backgroundColor: "var(--color-border)" }} />
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold" style={{ color: "var(--color-ink)" }}>
-            <Icon size={14} style={{ color: "var(--color-ink-tertiary)" }} />
+          <div className="h-3.5 w-px mx-0.5 bg-border" />
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink">
+            <Icon size={14} className="text-ink-tertiary" />
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </span>
         </div>
 
-        <p className="mt-2.5 font-mono text-[0.6rem]" style={{ color: "var(--color-ink-tertiary)" }}>
+        <p className="mt-2.5 font-mono text-[0.6rem] text-ink-tertiary">
           ID: {id}
         </p>
 
         {description && (
-          <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--color-ink-secondary)" }}>
+          <p className="mt-3 text-sm leading-relaxed text-ink-secondary">
             {description}
           </p>
         )}
 
         {actions && (
-          <div className="mt-5 flex flex-wrap gap-2 pt-4 border-t" style={{ borderColor: "var(--color-border)" }}>
+          <div className="mt-5 flex flex-wrap gap-2 pt-4 border-t border-border">
             {actions}
           </div>
         )}

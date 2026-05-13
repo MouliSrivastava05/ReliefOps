@@ -8,9 +8,6 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { ROLES } from "@/constants/roles.constants";
 
-/**
- * NavLink — Active-state-aware navigation link
- */
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   const path = usePathname();
   const active = href === "/" ? path === "/" : path === href || path.startsWith(`${href}/`);
@@ -18,20 +15,15 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className="relative px-3 py-1.5 text-[0.8rem] font-medium rounded-lg transition-all duration-200"
-      style={{
-        color: active ? "var(--color-action)" : "var(--color-ink-secondary)",
-        backgroundColor: active ? "var(--color-action-soft)" : "transparent",
-      }}
+      className={`px-3 py-1.5 text-[0.8rem] font-medium rounded-lg transition-all duration-200 ${
+        active ? "text-action bg-action-soft" : "text-ink-secondary hover:text-ink hover:bg-surface-dim"
+      }`}
     >
       {children}
     </Link>
   );
 }
 
-/**
- * SiteHeader — Premium minimal navigation
- */
 export function SiteHeader() {
   const { data: session, status } = useSession();
   const role = session?.user?.role;
@@ -41,23 +33,11 @@ export function SiteHeader() {
   const showAdmin = role === ROLES.ADMIN || role === ROLES.SHELTER_MANAGER;
 
   return (
-    <header
-      className="sticky top-0 z-50 border-b"
-      style={{
-        borderColor: "rgba(226, 232, 240, 0.7)",
-        backgroundColor: "rgba(248, 250, 252, 0.8)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-      }}
-    >
+    <header className="sticky top-0 z-50 border-b border-border/70 bg-ground/80 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
         <div className="flex items-center gap-6">
-          <Link
-            href="/"
-            className="text-lg font-extrabold tracking-tight transition-opacity hover:opacity-70"
-            style={{ color: "var(--color-ink)" }}
-          >
-            Relief<span style={{ color: "var(--color-action)" }}>Ops</span>
+          <Link href="/" className="text-lg font-extrabold tracking-tight text-ink transition-opacity hover:opacity-70">
+            Relief<span className="text-action">Ops</span>
           </Link>
 
           {status === "authenticated" && session?.user && (
@@ -91,16 +71,10 @@ export function SiteHeader() {
           ) : session?.user ? (
             <div className="flex items-center gap-3">
               <div className="hidden md:flex items-center gap-2">
-                <span className="text-xs font-medium truncate max-w-[100px]" style={{ color: "var(--color-ink-secondary)" }}>
+                <span className="text-xs font-medium text-ink-secondary truncate max-w-[100px]">
                   {session.user.email?.split("@")[0]}
                 </span>
-                <span
-                  className="text-[0.5rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md"
-                  style={{
-                    backgroundColor: "var(--color-action-soft)",
-                    color: "var(--color-action)",
-                  }}
-                >
+                <span className="text-[0.5rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-action-soft text-action">
                   {session.user.role}
                 </span>
               </div>
@@ -153,9 +127,7 @@ export function RoleGuard({ role, children, fallback }: RoleGuardProps) {
       <div className="ro-page flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="ro-skeleton h-4 w-32 rounded" />
-          <p className="text-xs" style={{ color: "var(--color-ink-tertiary)" }}>
-            Verifying access…
-          </p>
+          <p className="text-xs text-ink-tertiary">Verifying access…</p>
         </div>
       </div>
     );
