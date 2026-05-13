@@ -4,11 +4,7 @@ import { useState } from "react";
 import { ROLES } from "@/constants/roles.constants";
 
 /**
- * RegisterForm — Onboarding with warmth
- *
- * Warm, guiding language throughout.
- * Volunteer application section is clearly delineated.
- * Larger touch targets. Clear checkbox text.
+ * RegisterForm — Calm and guiding onboarding
  */
 
 export function RegisterForm({
@@ -25,7 +21,7 @@ export function RegisterForm({
         setPending(true);
         action(data);
       }}
-      className="ro-card mt-8 space-y-6"
+      className="ro-card mt-10 space-y-6"
     >
       <div className="space-y-4">
         <label className="ro-label">
@@ -41,7 +37,13 @@ export function RegisterForm({
 
         <label className="ro-label">
           Email
-          <input name="email" type="email" required placeholder="you@example.com" className="ro-input" />
+          <input
+            name="email"
+            type="email"
+            required
+            placeholder="you@example.com"
+            className="ro-input"
+          />
         </label>
 
         <label className="ro-label">
@@ -57,7 +59,7 @@ export function RegisterForm({
         </label>
 
         <label className="ro-label">
-          I am registering as
+          Registration Role
           <select
             name="role"
             value={role}
@@ -73,112 +75,88 @@ export function RegisterForm({
       </div>
 
       {role === ROLES.VOLUNTEER && (
-        <div className="animate-in fade-in slide-in-from-top-4 duration-300">
-          <div className="ro-alert-info mb-4">
-            <p className="font-medium text-sm">Volunteer Application</p>
-            <p className="mt-1 text-xs opacity-80">
-              Your application will be reviewed by an administrator before you can
-              access the volunteer portal. Please provide your details below.
-            </p>
+        <div className="ro-fade-up space-y-4">
+          <div className="ro-alert-info">
+            <div>
+              <p className="font-bold">Volunteer Application</p>
+              <p className="mt-0.5 opacity-90 text-xs">
+                Your application will be reviewed by an administrator. Please provide your details to proceed.
+              </p>
+            </div>
           </div>
 
-          <div
-            className="space-y-4 rounded-lg border p-5"
-            style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-dim)" }}
-          >
+          <div className="space-y-5 rounded-2xl border border-border bg-surface-dim/30 p-6">
             <label className="ro-label">
-              Skills{" "}
-              <span style={{ color: "var(--color-ink-tertiary)" }}>(comma-separated)</span>
+              Skills <span className="text-ink-tertiary normal-case">(comma-separated)</span>
               <input
                 name="skills"
                 type="text"
                 placeholder="First Aid, Search & Rescue, Logistics…"
-                className="ro-input"
+                className="ro-input mt-1"
               />
             </label>
 
             <label className="ro-label">
-              Why do you want to volunteer?
+              Motivation
               <textarea
                 name="message"
                 rows={3}
-                placeholder="Briefly describe your motivation and relevant experience…"
-                className="ro-input resize-none"
+                placeholder="Why do you want to volunteer?"
+                className="ro-input mt-1 resize-none"
               />
             </label>
 
-            <div className="flex gap-4">
-              <label className="ro-label flex-1">
-                Emergency Contact Name
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="ro-label">
+                Emergency Contact
                 <input
                   name="emergency_contact_name"
                   type="text"
                   required
                   placeholder="Jane Doe"
-                  className="ro-input"
+                  className="ro-input mt-1"
                 />
               </label>
-              <label className="ro-label flex-1">
+              <label className="ro-label">
                 Contact Number
                 <input
                   name="emergency_contact_phone"
                   type="tel"
                   required
                   placeholder="+1…"
-                  className="ro-input"
+                  className="ro-input mt-1"
                 />
               </label>
             </div>
 
             <label className="ro-label">
-              Valid ID / Passport Upload
+              ID / Passport Upload
               <input
                 name="id_proof"
                 type="file"
                 required
                 accept="image/*,.pdf"
-                className="ro-input file:mr-4 file:rounded-md file:border-0 file:px-3 file:py-1 file:text-xs file:font-semibold file:text-white hover:file:opacity-90"
-                style={{ ["--tw-file-bg" as string]: "var(--color-trust)" }}
+                className="ro-input mt-1 file:mr-4 file:rounded-lg file:border-0 file:bg-trust file:px-3 file:py-1.5 file:text-[0.65rem] file:font-bold file:uppercase file:text-white hover:file:opacity-90"
               />
             </label>
 
-            <div className="my-2 h-px w-full" style={{ backgroundColor: "var(--color-border)" }} />
-
-            <div className="space-y-3">
-              <label className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  required
-                  className="mt-1 h-4 w-4 shrink-0 rounded accent-trust"
-                />
-                <span className="text-xs leading-snug" style={{ color: "var(--color-ink-secondary)" }}>
-                  I authorize a complete criminal background and screening check.
-                </span>
-              </label>
-
-              <label className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  required
-                  className="mt-1 h-4 w-4 shrink-0 rounded accent-trust"
-                />
-                <span className="text-xs leading-snug" style={{ color: "var(--color-ink-secondary)" }}>
-                  I agree to the Liability Waiver, acknowledging that I operate at
-                  my own risk in hazardous areas.
-                </span>
-              </label>
-
-              <label className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  required
-                  className="mt-1 h-4 w-4 shrink-0 rounded accent-trust"
-                />
-                <span className="text-xs leading-snug" style={{ color: "var(--color-ink-secondary)" }}>
-                  I confirm that I possess required vaccinations and am physically
-                  cleared for disaster relief operations.
-                </span>
-              </label>
+            <div className="pt-2 space-y-3">
+              {[
+                "I authorize a complete background check.",
+                "I agree to the Liability Waiver.",
+                "I possess required vaccinations.",
+              ].map((text, i) => (
+                <label key={i} className="flex items-start gap-3 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    required
+                    className="mt-1 h-4 w-4 shrink-0 rounded border-border text-action focus:ring-action/20 transition-all"
+                  />
+                  <span className="text-xs text-ink-secondary group-hover:text-ink transition-colors">
+                    {text}
+                  </span>
+                </label>
+              ))}
             </div>
           </div>
         </div>
@@ -187,7 +165,7 @@ export function RegisterForm({
       <button
         type="submit"
         disabled={pending}
-        className="ro-btn-primary mt-2 w-full"
+        className="ro-btn-primary w-full py-4 text-base"
       >
         {pending
           ? "Processing…"

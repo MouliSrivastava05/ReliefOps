@@ -8,72 +8,58 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui"],
+        display: ["var(--font-display)", "serif"],
+      },
       colors: {
         trust: {
-          DEFAULT: "var(--color-trust)",
-          light: "var(--color-trust-light)",
-          soft: "var(--color-trust-soft)",
+          DEFAULT: "#0f172a",
+          light: "#1e293b",
+          soft: "#f1f5f9",
         },
         action: {
-          DEFAULT: "var(--color-action)",
-          soft: "var(--color-action-soft)",
+          DEFAULT: "#0d9488",
+          soft: "#f0fdfa",
+          muted: "#5eead4",
         },
         critical: {
-          DEFAULT: "var(--color-critical)",
+          DEFAULT: "#dc2626",
+          soft: "#fef2f2",
         },
         hazard: {
-          DEFAULT: "var(--color-hazard)",
+          DEFAULT: "#d97706",
+          soft: "#fffbeb",
         },
-        caution: {
-          DEFAULT: "var(--color-caution)",
-        },
+        caution: { DEFAULT: "#ca8a04" },
         safe: {
-          DEFAULT: "var(--color-safe)",
+          DEFAULT: "#059669",
+          soft: "#ecfdf5",
         },
         steady: {
-          DEFAULT: "var(--color-steady)",
+          DEFAULT: "#0284c7",
+          soft: "#f0f9ff",
         },
-        ground: {
-          DEFAULT: "var(--color-ground)",
-        },
+        ground: { DEFAULT: "#f8fafc" },
         surface: {
-          DEFAULT: "var(--color-surface)",
-          dim: "var(--color-surface-dim)",
+          DEFAULT: "#ffffff",
+          dim: "#f1f5f9",
+          raised: "#ffffff",
         },
         border: {
-          DEFAULT: "var(--color-border)",
-          strong: "var(--color-border-strong)",
+          DEFAULT: "#e2e8f0",
+          strong: "#cbd5e1",
         },
         ink: {
-          DEFAULT: "var(--color-ink)",
-          secondary: "var(--color-ink-secondary)",
-          tertiary: "var(--color-ink-tertiary)",
+          DEFAULT: "#0f172a",
+          secondary: "#475569",
+          tertiary: "#94a3b8",
+          ghost: "#cbd5e1",
         },
       },
       boxShadow: {
-        sm: "var(--shadow-sm)",
-        md: "var(--shadow-md)",
-        tactical: "var(--shadow-tactical)",
-      },
-      animation: {
-        "skeleton-pulse": "skeleton-pulse 1.8s ease-in-out infinite",
-        "subtle-pulse": "subtle-pulse 2s ease-in-out infinite",
-        "live-pulse": "live-pulse 1.5s infinite",
-      },
-      keyframes: {
-        "skeleton-pulse": {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.5" },
-        },
-        "subtle-pulse": {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.7" },
-        },
-        "live-pulse": {
-          "0%": { opacity: "1" },
-          "50%": { opacity: "0.5" },
-          "100%": { opacity: "1" },
-        },
+        card: "0 1px 3px 0 rgb(0 0 0 / 0.04), 0 0 0 1px rgb(0 0 0 / 0.02)",
+        glow: "0 0 40px -8px rgba(13, 148, 136, 0.12)",
       },
     },
   },

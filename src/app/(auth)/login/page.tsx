@@ -32,11 +32,7 @@ function LoginForm() {
         });
         const { status, role } = await statusRes.json() as { status: string; role: string };
         if (status === "pending" && role === "volunteer") {
-          setError("Your volunteer application is pending admin approval. You\u2019ll be able to sign in once approved.");
-          return;
-        }
-        if (status === "rejected" && role === "volunteer") {
-          setError("Your volunteer application was not approved. Please contact an administrator.");
+          setError("Your volunteer application is pending admin approval.");
           return;
         }
       } catch { /* fall through */ }
@@ -50,35 +46,43 @@ function LoginForm() {
 
   return (
     <main className="ro-page-narrow">
-      <p className="ro-eyebrow">Welcome back</p>
-      <h1 className="ro-title mt-2">Sign in</h1>
-      <p className="ro-lead">
-        Access your account to submit requests, volunteer, or manage operations.
-      </p>
+      <div className="space-y-2">
+        <p className="ro-eyebrow">Welcome back</p>
+        <h1 className="ro-title">Sign in</h1>
+        <p className="ro-lead">
+          Access your account to manage operations or request assistance.
+        </p>
+      </div>
+
       {registered === "1" && (
-        <div className="mt-6 ro-alert-success">
+        <div className="mt-8 ro-alert-success">
           Account created successfully. You can sign in now.
         </div>
       )}
+
       {error && (
-        <div className="mt-6 ro-alert-error">{error}</div>
+        <div className="mt-8 ro-alert-error">
+          {error}
+        </div>
       )}
-      <form onSubmit={onSubmit} className="ro-card mt-8 space-y-5">
+
+      <form onSubmit={onSubmit} className="ro-card mt-10 space-y-5">
         <label className="ro-label">
-          Email
-          <input name="email" type="email" required placeholder="you@example.com" className="ro-input" />
+          Email address
+          <input name="email" type="email" required placeholder="you@example.com" className="ro-input mt-1" />
         </label>
         <label className="ro-label">
           Password
-          <input name="password" type="password" required placeholder="Your password" className="ro-input" />
+          <input name="password" type="password" required placeholder="Your password" className="ro-input mt-1" />
         </label>
-        <button type="submit" disabled={pending} className="ro-btn-primary w-full">
-          {pending ? "Signing in\u2026" : "Sign in"}
+        <button type="submit" disabled={pending} className="ro-btn-primary w-full py-4 text-base mt-2">
+          {pending ? "Signing in…" : "Sign in"}
         </button>
       </form>
-      <p className="mt-8 text-sm" style={{ color: "var(--color-ink-secondary)" }}>
+
+      <p className="mt-10 text-sm text-ink-secondary text-center">
         No account?{" "}
-        <Link href="/register" className="ro-link">Register</Link>
+        <Link href="/register" className="ro-link">Create one now</Link>
       </p>
     </main>
   );
