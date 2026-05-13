@@ -39,7 +39,7 @@ export default function AdminResourcesPage() {
     setMsg(null);
     const res = await fetch(`/api/resource-requests/${id}/approve`, { method: "POST" });
     if (!res.ok) { setMsg({ text: await res.text(), type: "error" }); return; }
-    setMsg({ text: "Resource request approved and stock added.", type: "success" });
+    setMsg({ text: "Stock successfully updated.", type: "success" });
     refetchResourceRequests();
     qc.invalidateQueries({ queryKey: ["resources"] });
   }
@@ -58,7 +58,7 @@ export default function AdminResourcesPage() {
     };
     const res = await fetch("/api/resources", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
     if (!res.ok) { setMsg({ text: await res.text(), type: "error" }); return; }
-    setMsg({ text: "Resource added to inventory.", type: "success" });
+    setMsg({ text: "Inventory updated.", type: "success" });
     form.reset();
     qc.invalidateQueries({ queryKey: ["resources"] });
   }
@@ -71,14 +71,14 @@ export default function AdminResourcesPage() {
     const body = {
       type: (form.elements.namedItem("type") as HTMLSelectElement).value,
       severity: Number((form.elements.namedItem("severity") as HTMLSelectElement).value),
-      description: `Resource Request: ${qty} units needed. ` + (form.elements.namedItem("desc") as HTMLTextAreaElement).value,
+      description: `Resource Request: ${qty} units. ` + (form.elements.namedItem("desc") as HTMLTextAreaElement).value,
       lat: Number((form.elements.namedItem("lat") as HTMLInputElement).value),
       lng: Number((form.elements.namedItem("lng") as HTMLInputElement).value),
       isResourceRequest: true, qty,
     };
     const res = await fetch("/api/requests", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
     if (!res.ok) { setMsg({ text: await res.text(), type: "error" }); return; }
-    setMsg({ text: "Resource request submitted.", type: "success" });
+    setMsg({ text: "Request sent to central operations.", type: "success" });
     form.reset();
     refetchResourceRequests();
   }
@@ -89,90 +89,56 @@ export default function AdminResourcesPage() {
     <RoleGuard role={[ROLES.ADMIN, ROLES.SHELTER_MANAGER]}>
       <main className="ro-page-wide space-y-12">
         <div className="max-w-2xl">
-          <p className="ro-eyebrow">Inventory</p>
+          <p className="ro-eyebrow">Supply Chain</p>
           <h1 className="ro-title mt-2">Resources</h1>
-          <p className="ro-lead">Track available supplies. Stock updates atomically when allocations are made.</p>
+          <p className="ro-lead">Manage mission-critical supplies and inventory levels.</p>
         </div>
 
         {msg && <div className={msg.type === "success" ? "ro-alert-success" : "ro-alert-error"} role="status">{msg.text}</div>}
 
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,26rem)_1fr] lg:items-start">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,24rem)_1fr] lg:items-start">
           {/* Form */}
-          <form onSubmit={role === ROLES.ADMIN ? onSubmit : onRequestSubmit} className="ro-card space-y-4">
-            {role === ROLES.ADMIN ? (
-              <>
-                <h2 className="ro-section-title">Add Stock</h2>
-                <label className="ro-label">Name<input name="name" required className="ro-input" placeholder="e.g. Medical Kit A" /></label>
-                <label className="ro-label">Type<select name="type" className="ro-select"><option value="medical">Medical</option><option value="shelter">Shelter</option><option value="food">Food</option></select></label>
-                <label className="ro-label">Units<input name="qty" type="number" min={0} defaultValue={10} className="ro-input" /></label>
-                <div className="grid grid-cols-2 gap-3">
-                  <label className="ro-label">Lat<input name="lat" type="number" step="any" defaultValue={40.73} className="ro-input font-mono text-xs" /></label>
-                  <label className="ro-label">Lng<input name="lng" type="number" step="any" defaultValue={-73.99} className="ro-input font-mono text-xs" /></label>
-                </div>
-                <label className="ro-label">Shelter tag <span className="text-ink-tertiary">(optional)</span><input name="tag" className="ro-input" /></label>
-                <button type="submit" className="ro-btn-primary w-full">Save Resource</button>
-              </>
-            ) : (
-              <>
-                <h2 className="ro-section-title">Request Resource</h2>
-                <label className="ro-label">Type<select name="type" className="ro-select"><option value="medical">Medical</option><option value="shelter">Shelter</option><option value="food">Food</option></select></label>
-                <label className="ro-label">Units Needed<input name="qty" type="number" min={1} defaultValue={10} required className="ro-input" /></label>
-                <label className="ro-label">Severity<select name="severity" className="ro-select" defaultValue="3"><option value="1">1 — Low</option><option value="2">2 — Moderate</option><option value="3">3 — Elevated</option><option value="4">4 — Urgent</option><option value="5">5 — Critical</option></select></label>
-                <div className="grid grid-cols-2 gap-3">
-                  <label className="ro-label">Lat<input name="lat" type="number" step="any" defaultValue={40.73} className="ro-input font-mono text-xs" /></label>
-                  <label className="ro-label">Lng<input name="lng" type="number" step="any" defaultValue={-73.99} className="ro-input font-mono text-xs" /></label>
-                </div>
-                <label className="ro-label">Details<textarea name="desc" className="ro-input min-h-[4rem]" placeholder="Specific requirements…"></textarea></label>
-                <button type="submit" className="ro-btn-primary w-full">Submit Request</button>
-              </>
+          <form onSubmit={role === ROLES.ADMIN ? onSubmit : onRequestSubmit} className="ro-card space-y-5">
+            <h2 className="ro-section-title">{role === ROLES.ADMIN ? "Register Stock" : "Request Supplies"}</h2>
+            {role === ROLES.ADMIN && <label className="ro-label">Resource Name<input name="name" required className="ro-input mt-1" placeholder="e.g. Trauma Kit Alpha" /></label>}
+            <div className="grid grid-cols-2 gap-3">
+              <label className="ro-label">Type<select name="type" className="ro-select mt-1"><option value="medical">Medical</option><option value="shelter">Shelter</option><option value="food">Food</option></select></label>
+              <label className="ro-label">Units<input name="qty" type="number" min={1} defaultValue={10} className="ro-input mt-1" /></label>
+            </div>
+            {role !== ROLES.ADMIN && (
+              <label className="ro-label">Priority Level<select name="severity" className="ro-select mt-1" defaultValue="3"><option value="1">Stable</option><option value="2">Moderate</option><option value="3">Elevated</option><option value="4">Urgent</option><option value="5">Critical</option></select></label>
             )}
+            <div className="grid grid-cols-2 gap-3">
+              <label className="ro-label">Lat<input name="lat" type="number" step="any" defaultValue={40.73} className="ro-input mt-1 font-mono text-[0.7rem]" /></label>
+              <label className="ro-label">Lng<input name="lng" type="number" step="any" defaultValue={-73.99} className="ro-input mt-1 font-mono text-[0.7rem]" /></label>
+            </div>
+            {role !== ROLES.ADMIN && <label className="ro-label">Justification<textarea name="desc" className="ro-input mt-1 min-h-[4rem]" placeholder="Why are these units needed?"></textarea></label>}
+            <button type="submit" className="ro-btn-primary w-full py-3.5 mt-2">{role === ROLES.ADMIN ? "Add to Inventory" : "Submit Request"}</button>
           </form>
 
-          <section className="space-y-8">
-            {/* Shelter Manager resource requests */}
-            {role === ROLES.SHELTER_MANAGER && resourceRequestsData?.requests?.length ? (
+          <section className="space-y-10">
+            {/* Pending requests */}
+            {resourceRequestsData?.requests?.length ? (
               <div>
-                <h2 className="ro-section-title">My Resource Requests</h2>
-                <ul className="mt-4 space-y-2">
+                <h2 className="ro-section-title mb-4">Pending Requests</h2>
+                <ul className="space-y-3">
                   {resourceRequestsData.requests.map((r) => (
-                    <li key={r.id} className="flex flex-col gap-2 rounded-lg border border-border bg-surface px-4 py-3 text-sm shadow-sm">
-                      <div className="flex flex-wrap items-baseline justify-between gap-2">
-                        <span className="flex items-center gap-2 font-bold text-ink">
+                    <li key={r.id} className="ro-card !p-4 flex items-center justify-between gap-4 border-hazard/20 bg-hazard-soft/30">
+                      <div className="flex items-center gap-3">
+                        <div className="h-9 w-9 rounded-lg bg-white flex items-center justify-center shadow-sm text-hazard">
                           {(() => {
                             const Icon = TYPE_ICONS[r.type.toLowerCase()] || IconEmergency;
-                            return <Icon size={14} className="opacity-70" />;
+                            return <Icon size={18} />;
                           })()}
-                          {r.type.charAt(0).toUpperCase() + r.type.slice(1)}{" "}
-                          <span className="text-ink-secondary font-normal">({r.unitsNeeded} units)</span>
-                        </span>
-                        <span className={`rounded-full px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wider ${r.status === "RESOLVED" ? "bg-steady-soft text-steady" : "bg-urgent-soft text-urgent"}`}>{r.status === "QUEUED" ? "PENDING" : r.status}</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-ink">{r.type.charAt(0).toUpperCase() + r.type.slice(1)}</p>
+                          <p className="text-[0.65rem] text-ink-secondary mt-0.5">{r.unitsNeeded} units requested</p>
+                        </div>
                       </div>
-                      <span className="text-xs text-ink-tertiary">Severity: {r.severity}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-
-            {/* Admin pending resource requests */}
-            {role === ROLES.ADMIN && resourceRequestsData?.requests?.length ? (
-              <div>
-                <h2 className="ro-section-title">Pending Resource Requests</h2>
-                <ul className="mt-4 space-y-2">
-                  {resourceRequestsData.requests.map((r) => (
-                    <li key={r.id} className="flex flex-col gap-2 rounded-lg border border-urgent/30 bg-urgent-soft px-4 py-3 text-sm shadow-sm">
-                      <div className="flex flex-wrap items-baseline justify-between gap-2">
-                        <span className="flex items-center gap-2 font-bold text-ink">
-                          {(() => {
-                            const Icon = TYPE_ICONS[r.type.toLowerCase()] || IconEmergency;
-                            return <Icon size={14} className="opacity-70" />;
-                          })()}
-                          {r.type.charAt(0).toUpperCase() + r.type.slice(1)}{" "}
-                          <span className="text-ink-secondary font-normal">({r.unitsNeeded} units)</span>
-                        </span>
-                        <button onClick={() => approveResourceRequest(r.id)} className="ro-btn-primary px-3 py-1 text-xs">Approve &amp; Add Stock</button>
-                      </div>
-                      <span className="text-xs text-ink-secondary">Severity: {r.severity} · <span className="font-mono">{r.lat.toFixed(2)}, {r.lng.toFixed(2)}</span></span>
+                      {role === ROLES.ADMIN && (
+                        <button onClick={() => approveResourceRequest(r.id)} className="ro-btn-action !py-1.5 !px-4 text-xs">Approve</button>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -181,25 +147,22 @@ export default function AdminResourcesPage() {
 
             {/* Inventory */}
             <div>
-              <h2 className="ro-section-title">Current Inventory</h2>
-              {isLoading && <div className="mt-4 space-y-2">{[1, 2, 3].map((i) => <div key={i} className="ro-skeleton h-14 w-full rounded-lg" />)}</div>}
-              {error && <div className="mt-3 ro-alert-error">{error instanceof Error ? error.message : "Error"}</div>}
-              <ul className="mt-4 space-y-2">
+              <h2 className="ro-section-title mb-4">Current Inventory</h2>
+              {isLoading && <div className="space-y-3">{[1, 2, 3].map((i) => <div key={i} className="ro-skeleton h-16 w-full" />)}</div>}
+              <ul className="grid gap-3 sm:grid-cols-2">
                 {resources.map((r) => {
-                  const low = r.quantityAvailable <= 3 && r.quantityAvailable > 0;
                   const empty = r.quantityAvailable === 0;
+                  const low = r.quantityAvailable <= 3 && !empty;
                   return (
-                    <li key={r.id} className={`flex flex-wrap items-baseline justify-between gap-2 rounded-lg border bg-surface px-4 py-3 text-sm shadow-sm ${empty ? "border-critical/30 bg-critical-soft" : low ? "border-urgent/30 bg-urgent-soft" : "border-border"}`}>
-                      <span className="flex items-center gap-2 font-bold text-ink">
-                        {(() => {
-                          const Icon = TYPE_ICONS[r.type.toLowerCase()] || IconEmergency;
-                          return <Icon size={14} className="opacity-70" />;
-                        })()}
-                        {r.name}
-                      </span>
-                      <span className="text-ink-secondary">
-                        {r.type} · <span className={`tabular-nums font-semibold ${empty ? "text-critical" : low ? "text-urgent" : "text-ink"}`}>{r.quantityAvailable}</span> units · <span className="font-mono text-xs text-ink-tertiary">{r.lat.toFixed(2)}, {r.lng.toFixed(2)}</span>
-                      </span>
+                    <li key={r.id} className={`ro-card !p-4 border-l-4 ${empty ? "border-l-critical bg-critical-soft/30" : low ? "border-l-hazard bg-hazard-soft/30" : "border-l-safe"}`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-xs font-bold text-ink truncate max-w-[120px]">{r.name}</p>
+                        <span className={`text-xs font-black tabular-nums ${empty ? "text-critical" : low ? "text-hazard" : "text-safe"}`}>{r.quantityAvailable}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-[0.6rem] text-ink-tertiary uppercase tracking-wider font-semibold">
+                        <span>{r.type}</span>
+                        <span className="font-mono">LOC: {r.lat.toFixed(1)}, {r.lng.toFixed(1)}</span>
+                      </div>
                     </li>
                   );
                 })}

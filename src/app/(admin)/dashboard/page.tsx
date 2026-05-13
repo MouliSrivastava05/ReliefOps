@@ -27,16 +27,16 @@ export default function AdminDashboardPage() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <span className="ro-live-dot" />
-              <p className="ro-eyebrow">Live</p>
+              <p className="ro-eyebrow">Live Operations</p>
             </div>
-            <h1 className="ro-title">Operations Dashboard</h1>
+            <h1 className="ro-title">Dashboard</h1>
             <p className="ro-lead">
-              Monitor active requests, resource allocation, and field status.
+              Monitor active requests, resource allocation, and field status in real-time.
             </p>
           </div>
           <div className="flex gap-2">
-            <button className="ro-btn-secondary text-xs">Export</button>
-            <button className="ro-btn-action text-xs">Allocate</button>
+            <button className="ro-btn-secondary text-xs">Export Report</button>
+            <button className="ro-btn-action text-xs">Manual Allocate</button>
           </div>
         </div>
 
@@ -53,7 +53,7 @@ export default function AdminDashboardPage() {
         {error && (
           <div className="ro-alert-error">
             <span>⚠</span>
-            <p>{error instanceof Error ? error.message : "Failed to load dashboard."}</p>
+            <p>{error instanceof Error ? error.message : "Failed to load operational data."}</p>
           </div>
         )}
 
@@ -70,12 +70,9 @@ export default function AdminDashboardPage() {
               {/* Map */}
               <div className="lg:col-span-8">
                 <div className="ro-card !p-0 overflow-hidden h-full">
-                  <div
-                    className="px-5 py-3.5 border-b flex items-center justify-between"
-                    style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-dim)" }}
-                  >
-                    <h2 className="ro-section-title">Field Map</h2>
-                    <span className="ro-overline">Live</span>
+                  <div className="px-5 py-3.5 border-b border-border bg-surface-dim/50 flex items-center justify-between">
+                    <h2 className="ro-section-title">Mission Control Map</h2>
+                    <span className="ro-overline">Active Tracking</span>
                   </div>
                   <MapView requests={requests} />
                 </div>
@@ -91,47 +88,35 @@ export default function AdminDashboardPage() {
                 <section className="ro-card">
                   <div className="flex items-center justify-between mb-5">
                     <h2 className="ro-section-title">Allocation Log</h2>
-                    <span className="ro-badge">Live</span>
+                    <span className="ro-badge">Recent Events</span>
                   </div>
                   <div className="overflow-auto max-h-60 -mx-6 px-6">
                     <table className="w-full text-left text-xs">
                       <thead>
                         <tr>
-                          {["Time", "Request", "Resource", "Strategy"].map((h) => (
+                          {["Time", "Request ID", "Resource ID"].map((h) => (
                             <th
                               key={h}
-                              className="px-4 py-2.5 font-semibold uppercase tracking-wider text-[0.6rem] border-b sticky top-0"
-                              style={{
-                                color: "var(--color-ink-tertiary)",
-                                borderColor: "var(--color-border)",
-                                backgroundColor: "var(--color-surface)",
-                              }}
+                              className="px-4 py-2.5 font-semibold uppercase tracking-wider text-[0.6rem] border-b border-border sticky top-0 bg-surface text-ink-tertiary"
                             >
                               {h}
                             </th>
                           ))}
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody className="divide-y divide-border">
                         {events.length === 0 ? (
                           <tr>
-                            <td colSpan={4} className="px-4 py-8 text-center text-xs" style={{ color: "var(--color-ink-tertiary)" }}>
-                              No allocation events yet.
+                            <td colSpan={3} className="px-4 py-12 text-center text-xs text-ink-tertiary">
+                              No recent allocation events.
                             </td>
                           </tr>
                         ) : (
                           events.map((e: any, i: number) => (
-                            <tr
-                              key={i}
-                              className="transition-colors"
-                              style={{ borderBottom: "1px solid var(--color-border)" }}
-                            >
-                              <td className="px-4 py-2.5 font-mono" style={{ color: "var(--color-ink-tertiary)" }}>{e.at}</td>
-                              <td className="px-4 py-2.5 font-mono font-semibold" style={{ color: "var(--color-action)" }}>{e.requestId?.slice(-8)}</td>
-                              <td className="px-4 py-2.5 font-mono font-semibold" style={{ color: "var(--color-safe)" }}>{e.resourceId?.slice(-8)}</td>
-                              <td className="px-4 py-2.5">
-                                <span className="ro-badge">{e.strategy}</span>
-                              </td>
+                            <tr key={i} className="hover:bg-surface-dim/30 transition-colors">
+                              <td className="px-4 py-3 font-mono text-ink-tertiary">{e.at}</td>
+                              <td className="px-4 py-3 font-mono font-semibold text-action">{e.requestId?.slice(-8)}</td>
+                              <td className="px-4 py-3 font-mono font-semibold text-safe">{e.resourceId?.slice(-8)}</td>
                             </tr>
                           ))
                         )}

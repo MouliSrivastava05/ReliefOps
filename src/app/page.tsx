@@ -129,11 +129,6 @@ export default function HomePage() {
           <p className="text-xs text-ink-tertiary">
             Designed for reliability. Built for the moments that matter most.
           </p>
-          <div className="flex items-center gap-6">
-            {["Strategy Pattern", "Observer Pattern", "Priority Queue"].map((t, i) => (
-              <span key={i} className="ro-badge">{t}</span>
-            ))}
-          </div>
         </div>
       </div>
     </main>
