@@ -8,6 +8,10 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { ROLES } from "@/constants/roles.constants";
 
+/**
+ * NavLink — Active-state-aware navigation link
+ * Uses trust-navy underline for active state, warm grays for inactive.
+ */
 function NavLink({
   href,
   children,
@@ -26,8 +30,8 @@ function NavLink({
       href={href}
       className={`whitespace-nowrap border-b-2 pb-0.5 text-sm transition ${
         active
-          ? "border-primary font-medium text-ink"
-          : "border-transparent text-ink-muted hover:border-canvas-line hover:text-ink"
+          ? "border-trust font-medium text-ink"
+          : "border-transparent text-ink-secondary hover:border-border-strong hover:text-ink"
       }`}
     >
       {children}
@@ -35,6 +39,13 @@ function NavLink({
   );
 }
 
+/**
+ * SiteHeader — Role-adaptive persistent navigation
+ *
+ * Clean, minimal header that adapts to the user's role.
+ * No developer jargon. Warm institutional feel.
+ * Mobile: wraps naturally without hamburger complexity.
+ */
 export function SiteHeader() {
   const { data: session, status } = useSession();
   const role = session?.user?.role;
@@ -45,70 +56,92 @@ export function SiteHeader() {
     role === ROLES.ADMIN || role === ROLES.SHELTER_MANAGER;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-canvas-line bg-surface/90 shadow-inset backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-        <div className="flex items-baseline gap-3">
+    <header
+      className="sticky top-0 z-50 border-b backdrop-blur-xl transition-all"
+      style={{
+        borderColor: "rgba(226, 232, 240, 0.8)",
+        backgroundColor: "rgba(255, 255, 255, 0.75)",
+        boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.03)",
+      }}
+    >
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+        <div className="flex items-center gap-4">
           <Link
             href="/"
-            className="font-display text-lg font-medium tracking-tight text-ink"
+            className="font-sans text-xl font-black tracking-tighter hover:opacity-80 transition-opacity"
+            style={{ color: "var(--color-trust)" }}
           >
-            ReliefOps
+            RELIEFOPS
           </Link>
-          <span className="hidden text-[0.65rem] font-medium uppercase tracking-[0.18em] text-ink-faint sm:inline">
-            coordination
+          <div className="h-4 w-px bg-border hidden sm:block" />
+          <span
+            className="hidden text-[0.6rem] font-bold uppercase tracking-[0.3em] opacity-50 sm:inline"
+            style={{ color: "var(--color-ink-secondary)" }}
+          >
+            Tactical Unit
           </span>
         </div>
 
         {status === "authenticated" && session?.user && (
-          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-canvas-line/60 pt-3 sm:border-0 sm:pt-0">
+          <nav
+            className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t pt-4 sm:border-0 sm:pt-0"
+            aria-label="Main navigation"
+          >
             {showCitizen && (
               <>
                 <NavLink href="/submit-request">Request</NavLink>
-                <NavLink href="/track">Track</NavLink>
+                <NavLink href="/track">History</NavLink>
               </>
             )}
             {showVolunteer && (
               session.user.status === "active"
-                ? <NavLink href="/portal">Volunteer</NavLink>
-                : <NavLink href="/pending-approval">⏳ Pending Approval</NavLink>
+                ? <NavLink href="/portal">Field Portal</NavLink>
+                : <NavLink href="/pending-approval">Verification</NavLink>
             )}
             {showAdmin && (
               <>
-                {role === ROLES.ADMIN && <NavLink href="/dashboard">Dashboard</NavLink>}
+                {role === ROLES.ADMIN && <NavLink href="/dashboard">Command</NavLink>}
                 <NavLink href="/requests">Requests</NavLink>
-                <NavLink href="/resources">Resources</NavLink>
-                <NavLink href="/volunteers">Volunteers</NavLink>
-                <NavLink href="/track">Track</NavLink>
+                <NavLink href="/resources">Stock</NavLink>
+                <NavLink href="/volunteers">Personnel</NavLink>
               </>
             )}
           </nav>
         )}
 
-        <div className="flex items-center gap-3 text-sm text-ink-muted">
+        <div className="flex items-center gap-4 text-sm">
           {status === "loading" ? (
-            <span className="text-ink-faint">…</span>
+            <div className="ro-skeleton h-5 w-24" />
           ) : session?.user ? (
-            <>
-              <span className="hidden max-w-[10rem] truncate text-xs sm:inline sm:max-w-[14rem]">
-                {session.user.email}
-              </span>
-              <span className="rounded-sm bg-canvas-deep px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-wider text-ink-muted">
-                {session.user.role}
-              </span>
+            <div className="flex items-center gap-4">
+              <div className="hidden lg:flex flex-col items-end">
+                <span className="text-[0.65rem] font-bold text-ink truncate max-w-[120px]">
+                  {session.user.email?.split('@')[0]}
+                </span>
+                <span
+                  className="text-[0.55rem] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-sm"
+                  style={{
+                    backgroundColor: "var(--color-trust)",
+                    color: "white",
+                  }}
+                >
+                  {session.user.role}
+                </span>
+              </div>
               <button
                 type="button"
-                className="ro-btn-ghost px-2 py-1 text-xs"
+                className="ro-btn-secondary !py-1.5 !px-3 !text-[0.7rem] uppercase tracking-widest"
                 onClick={() => signOut({ callbackUrl: "/" })}
               >
-                Sign out
+                Exit
               </button>
-            </>
+            </div>
           ) : (
             <div className="flex items-center gap-3">
-              <Link href="/login" className="ro-btn-secondary px-3 py-1.5 text-xs">
-                Sign in
+              <Link href="/login" className="ro-btn-ghost !py-1.5 !px-3 text-xs">
+                Log In
               </Link>
-              <Link href="/register" className="ro-btn-primary px-3 py-1.5 text-xs">
+              <Link href="/register" className="ro-btn-primary !py-1.5 !px-4 text-xs">
                 Register
               </Link>
             </div>
@@ -142,7 +175,12 @@ export function RoleGuard({ role, children, fallback }: RoleGuardProps) {
   if (status === "loading") {
     return (
       <div className="ro-page flex items-center justify-center">
-        <p className="ro-eyebrow text-ink-muted">Checking session…</p>
+        <div className="flex flex-col items-center gap-3">
+          <div className="ro-skeleton h-4 w-32 rounded" />
+          <p className="text-xs" style={{ color: "var(--color-ink-tertiary)" }}>
+            Verifying access…
+          </p>
+        </div>
       </div>
     );
   }
@@ -150,13 +188,15 @@ export function RoleGuard({ role, children, fallback }: RoleGuardProps) {
     return (
       fallback ?? (
         <div className="ro-page">
-          <div className="ro-card-quiet max-w-md border-danger/20 bg-danger-soft/30">
-            <p className="text-sm font-medium text-danger">
-              You do not have access to this area.
-            </p>
-            <p className="mt-2 text-sm text-ink-muted">
-              Sign in with an account that has the right role, or return{" "}
-              <Link href="/" className="ro-link">
+          <div className="ro-alert-error max-w-md">
+            <p className="font-medium">Access restricted</p>
+            <p className="mt-1 text-xs opacity-80">
+              You do not have permission to view this area. Please{" "}
+              <Link href="/login" className="underline">
+                sign in
+              </Link>{" "}
+              with an authorized account, or return{" "}
+              <Link href="/" className="underline">
                 home
               </Link>
               .

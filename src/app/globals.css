@@ -2,169 +2,233 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════════════════════
+   ReliefOps Design System — V2 High-End Polish
+   Philosophy: "Solid Ground" — Professional, Deep, Authoritative.
+   Target Aesthetic: Linear.app / Stripe / Vercel
+   ═══════════════════════════════════════════════════════════════ */
+
 @layer base {
   :root {
     color-scheme: light;
-    --color-primary:       #0f766e;
-    --color-primary-hover: #0d9488;
-    --color-primary-soft:  #ccfbf1;
-    --color-primary-deep:  #115e59;
-    --color-canvas:        #f8fafc;
-    --color-canvas-line:   #e2e8f0;
-    --color-canvas-deep:   #cbd5e1;
-    --color-surface:       #ffffff;
-    --color-surface-mute:  #f1f5f9;
-    --color-ink:           #0f172a;
-    --color-ink-muted:     #475569;
-    --color-ink-faint:     #94a3b8;
-    --color-accent:        #e11d48;
-    --color-danger:        #dc2626;
-    --color-danger-soft:   #fef2f2;
-    --shadow-lift:         0 4px 6px -1px rgb(0 0 0/.1),0 2px 4px -2px rgb(0 0 0/.1);
-    --shadow-inset:        inset 0 2px 4px 0 rgb(0 0 0/.05);
-  }
 
-  ::selection {
-    background-color: var(--color-primary-soft);
-    color:            var(--color-primary-deep);
+    /* ── Operational Foundation (Tactical & Deep) ── */
+    --color-trust:       #020617; /* Deepest Indigo/Black */
+    --color-trust-light: #0f172a;
+    --color-trust-soft:  #f1f5f9;
+    
+    /* ── Action & Logic ── */
+    --color-action:      #2563eb; /* Tactical Blue */
+    --color-action-soft: #eff6ff;
+
+    /* ── Safety Signals (Standard Emergency Palette) ── */
+    --color-critical:    #e11d48; /* Crisis Red */
+    --color-hazard:      #f97316; /* Safety Orange */
+    --color-caution:     #f59e0b; /* Warning Yellow */
+    --color-safe:        #10b981; /* Success Green */
+    --color-steady:      #0ea5e9; /* Information Blue */
+
+    /* ── Neutrals (High Contrast) ── */
+    --color-ground:      #f8fafc;
+    --color-surface:     #ffffff;
+    --color-surface-dim: #f1f5f9;
+    --color-border:      #e2e8f0;
+    --color-border-strong: #94a3b8;
+    --color-ink:         #020617;
+    --color-ink-secondary: #475569;
+    --color-ink-tertiary:  #94a3b8;
+
+    /* ── Radius ── */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+
+    /* ── Shadows (Tactical/Flat) ── */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-tactical: 0 0 0 1px var(--color-border), 0 2px 4px 0 rgb(0 0 0 / 0.05);
   }
 
   body {
-    background-color: var(--color-canvas);
-    color:            var(--color-ink);
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
+    background-color: var(--color-ground);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }
 
 @layer components {
-  .ro-page {
-    @apply mx-auto max-w-5xl px-5 pb-20 pt-12 sm:px-8 lg:pt-16;
-  }
+  /* ── Layouts ── */
+  .ro-page { @apply mx-auto max-w-4xl px-5 pb-24 pt-12 sm:px-8; }
+  .ro-page-wide { @apply mx-auto max-w-7xl px-5 pb-24 pt-12 sm:px-8; }
 
-  .ro-page-narrow {
-    @apply mx-auto max-w-md px-5 pb-20 pt-12 sm:px-8;
-  }
-
-  .ro-page-wide {
-    @apply mx-auto max-w-6xl px-5 pb-20 pt-12 sm:px-8 lg:pt-16;
-  }
-
+  /* ── Typography (Tactical Hierarchy) ── */
   .ro-eyebrow {
-    @apply text-[0.65rem] font-semibold uppercase tracking-[0.22em];
-    color: var(--color-ink-faint);
+    @apply text-[0.65rem] font-bold uppercase tracking-[0.15em] text-ink-tertiary;
   }
-
   .ro-title {
-    @apply font-sans text-[2rem] font-medium leading-[1.1] tracking-tight sm:text-[2.35rem];
-    color: var(--color-ink);
+    @apply text-3xl font-extrabold tracking-tight text-ink sm:text-5xl;
+    line-height: 1.1;
   }
-
   .ro-lead {
-    @apply mt-4 max-w-2xl text-base leading-relaxed;
-    color: var(--color-ink-muted);
+    @apply mt-4 text-base leading-relaxed text-ink-secondary sm:text-lg;
   }
 
-  .ro-label {
-    @apply block text-xs font-medium;
-    color: var(--color-ink-muted);
+  /* ── Tactical Tiles (High-Stress Selection) ── */
+  .ro-tile-grid {
+    @apply grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+  }
+  .ro-tile {
+    @apply relative flex flex-col items-center justify-center gap-3 rounded-xl border-2 bg-surface p-6 text-center transition-all duration-200 cursor-pointer active:scale-95;
+    border-color: var(--color-border);
+  }
+  .ro-tile:hover {
+    border-color: var(--color-action);
+    background-color: var(--color-action-soft);
+  }
+  .ro-tile-selected {
+    border-color: var(--color-action);
+    background-color: var(--color-action-soft);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  }
+  .ro-tile-icon {
+    @apply flex h-12 w-12 items-center justify-center rounded-full bg-surface-dim text-ink-secondary transition-colors;
+  }
+  .ro-tile-selected .ro-tile-icon {
+    background-color: var(--color-action);
+    @apply text-white;
   }
 
-  .ro-input {
-    @apply mt-1.5 w-full rounded-md border px-3 py-2.5 text-sm shadow-sm transition;
-    border-color:     var(--color-canvas-line);
-    background-color: var(--color-surface);
-    color:            var(--color-ink);
+  /* ── Alerts (Mission Critical Feedback) ── */
+  .ro-alert {
+    @apply flex items-start gap-3 rounded-lg border p-4 text-sm font-medium;
+    animation: ro-alert-fade 0.3s ease-out;
   }
-  .ro-input::placeholder { color: var(--color-ink-faint); }
-  .ro-input:hover         { border-color: var(--color-canvas-deep); }
-  .ro-input:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 1px var(--color-primary);
+  .ro-alert-success {
+    @apply ro-alert;
+    border-color: rgba(16, 185, 129, 0.2);
+    background-color: rgba(16, 185, 129, 0.05);
+    color: var(--color-safe);
   }
-
-  .ro-select {
-    @apply mt-1.5 w-full cursor-pointer appearance-none rounded-md border px-3 py-2.5 pr-10 text-sm shadow-sm transition;
-    border-color:     var(--color-canvas-line);
-    background-color: var(--color-surface);
-    color:            var(--color-ink);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2357534e'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
-    background-size: 1rem;
-    background-position: right 0.6rem center;
-    background-repeat: no-repeat;
+  .ro-alert-error {
+    @apply ro-alert;
+    border-color: rgba(225, 29, 72, 0.2);
+    background-color: rgba(225, 29, 72, 0.05);
+    color: var(--color-critical);
   }
-  .ro-select:hover { border-color: var(--color-canvas-deep); }
-  .ro-select:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 1px var(--color-primary);
+  .ro-alert-warning {
+    @apply ro-alert;
+    border-color: rgba(249, 115, 22, 0.2);
+    background-color: rgba(249, 115, 22, 0.05);
+    color: var(--color-hazard);
   }
 
+  /* ── Buttons (Tactical Utility) ── */
   .ro-btn {
-    @apply inline-flex items-center justify-center rounded-md px-4 py-2.5 text-sm font-medium transition disabled:pointer-events-none disabled:opacity-45;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-bold transition-all active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none;
   }
-
   .ro-btn-primary {
-    @apply ro-btn;
-    background-color: var(--color-primary);
-    color:            var(--color-surface);
-    box-shadow:       var(--shadow-lift);
+    @apply ro-btn text-white shadow-md;
+    background-color: var(--color-trust);
   }
-  .ro-btn-primary:hover  { background-color: var(--color-primary-hover); }
-  .ro-btn-primary:active { transform: translateY(1px); }
-
+  .ro-btn-primary:hover {
+    background-color: var(--color-trust-light);
+  }
+  .ro-btn-action {
+    @apply ro-btn text-white shadow-md;
+    background-color: var(--color-action);
+  }
+  .ro-btn-action:hover {
+    @apply bg-blue-700;
+  }
   .ro-btn-secondary {
-    @apply ro-btn border;
-    border-color:     var(--color-canvas-line);
-    background-color: var(--color-surface);
-    color:            var(--color-ink);
-    box-shadow:       var(--shadow-inset);
+    @apply ro-btn border-2 border-border bg-white text-ink hover:bg-surface-dim;
   }
-  .ro-btn-secondary:hover {
-    border-color:     var(--color-canvas-deep);
-    background-color: var(--color-surface-mute);
+  .ro-btn-sos {
+    @apply ro-btn text-white text-lg py-5 px-10 shadow-lg active:scale-95;
+    background-color: var(--color-critical);
+    box-shadow: 0 10px 15px -3px rgba(225, 29, 72, 0.2);
+    animation: sos-pulse 2s infinite;
   }
-
-  .ro-btn-warn {
-    @apply ro-btn text-white;
-    background-color: var(--color-accent);
-  }
-  .ro-btn-warn:hover { opacity: 0.95; }
-
-  .ro-btn-ghost {
-    @apply ro-btn;
-    color: var(--color-primary);
-  }
-  .ro-btn-ghost:hover {
-    background-color: color-mix(in srgb, var(--color-primary-soft) 60%, transparent);
+  .ro-btn-sos:hover {
+    @apply scale-[1.02];
   }
 
+  /* ── Cards & Containers ── */
   .ro-card {
-    @apply rounded-lg border p-5;
-    border-color:     var(--color-canvas-line);
-    background-color: var(--color-surface);
-    box-shadow:       var(--shadow-lift);
+    @apply rounded-xl border border-border bg-surface p-6 shadow-sm;
+  }
+  .ro-card-header {
+    @apply border-b border-border -mx-6 -mt-6 px-6 py-4 mb-6 bg-surface-dim/50 rounded-t-xl;
   }
 
-  .ro-card-quiet {
-    @apply rounded-lg border p-4;
-    border-color:     color-mix(in srgb, var(--color-canvas-line) 80%, transparent);
-    background-color: color-mix(in srgb, var(--color-surface-mute) 80%, transparent);
+  /* ── Inputs (Clean & Focused) ── */
+  .ro-input {
+    @apply w-full rounded-lg border-2 border-border bg-surface px-4 py-3 text-sm font-medium transition-all outline-none;
+  }
+  .ro-input:focus {
+    border-color: var(--color-action);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  }
+  .ro-label {
+    @apply block text-xs font-bold uppercase tracking-wider text-ink-secondary mb-2;
   }
 
-  .ro-divider {
-    @apply h-px w-full;
-    background: linear-gradient(to right, transparent, var(--color-canvas-line), transparent);
+  /* ── Badges & Status ── */
+  .ro-badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[0.65rem] font-black uppercase tracking-widest border;
   }
+  .ro-status-dot {
+    @apply h-2 w-2 rounded-full;
+  }
+  /* ── Skeleton Loading ── */
+  .ro-skeleton {
+    @apply bg-surface-dim animate-skeleton-pulse;
+  }
+}
 
-  .ro-link {
-    @apply font-medium underline underline-offset-4 transition;
-    color:                 var(--color-primary);
-    text-decoration-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
-  }
-  .ro-link:hover { text-decoration-color: var(--color-primary); }
+@keyframes sos-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.4); }
+  70% { box-shadow: 0 0 0 15px rgba(225, 29, 72, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+}
+
+@keyframes live-pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes ro-alert-fade {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ro-fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ro-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.ro-fade-up {
+  animation: ro-fade-up 0.5s ease-out forwards;
+}
+
+.ro-fade-in {
+  animation: ro-fade-in 0.5s ease-out forwards;
+}
+
+.ro-live-dot {
+  @apply h-2 w-2 rounded-full;
+  background-color: var(--color-safe);
+  animation: live-pulse 1.5s infinite;
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
 }

@@ -2,6 +2,14 @@
 
 import { PriorityBadge } from "@/components/common/PriorityBadge";
 import { StatusChip } from "@/components/common/StatusChip";
+import { IconMedical, IconShelter, IconFood, IconEmergency } from "@/components/common/Icons";
+
+/**
+ * RequestCard — Triage-optimized request display
+ *
+ * Left border color encodes severity for instant visual scanning.
+ * Information hierarchy: Status + Severity (top) → Type → Description → Actions
+ */
 
 type Props = {
   id: string;
@@ -12,6 +20,22 @@ type Props = {
   actions?: React.ReactNode;
 };
 
+const TRIAGE_CLASS: Record<number, string> = {
+  1: "ro-triage-1",
+  2: "ro-triage-2",
+  3: "ro-triage-3",
+  4: "ro-triage-4",
+  5: "ro-triage-5",
+};
+
+const TYPE_ICONS: Record<string, React.ElementType> = {
+  medical: IconMedical,
+  shelter: IconShelter,
+  food: IconFood,
+  rescue: IconEmergency,
+  other: IconEmergency,
+};
+
 export function RequestCard({
   id,
   type,
@@ -20,23 +44,50 @@ export function RequestCard({
   description,
   actions,
 }: Props) {
+  const triageClass = TRIAGE_CLASS[Math.max(1, Math.min(5, severity))] ?? "ro-triage-3";
+
   return (
-    <article className="group relative overflow-hidden rounded-lg border border-canvas-line bg-surface shadow-lift transition hover:border-canvas-deep">
-      <div className="absolute left-0 top-0 h-full w-1 bg-primary/80 opacity-0 transition group-hover:opacity-100" />
-      <div className="p-5 pl-6">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="font-mono text-[0.7rem] text-ink-faint">{id}</span>
+    <article
+      className={`group relative overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:shadow-lg hover:scale-[1.005] ${triageClass}`}
+      style={{ 
+        boxShadow: "var(--shadow-premium)",
+      }}
+    >
+      {/* Inner Glow Overlay */}
+      <div className="absolute inset-0 border-t border-white/40 pointer-events-none" />
+      
+      <div className="p-6 pl-7">
+        {/* Row 1: Status + Severity + Type */}
+        <div className="flex flex-wrap items-center gap-3">
           <StatusChip status={status} />
-          <PriorityBadge level={`S${severity}`} />
-          <span className="text-sm font-medium capitalize text-ink">{type}</span>
+          <PriorityBadge level={severity} />
+          <div className="h-3 w-px bg-border mx-1" />
+          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-ink">
+            {(() => {
+              const Icon = TYPE_ICONS[type.toLowerCase()] || TYPE_ICONS.other;
+              return <Icon size={14} className="opacity-70" />;
+            })()}
+            {type}
+          </span>
         </div>
+
+        {/* Row 2: ID */}
+        <div className="mt-3">
+          <span className="font-mono text-[0.6rem] font-bold uppercase tracking-tighter opacity-40">
+            Node ID: {id}
+          </span>
+        </div>
+
+        {/* Row 3: Description */}
         {description ? (
-          <p className="mt-3 text-sm leading-relaxed text-ink-muted">
+          <p className="mt-4 text-[0.875rem] leading-relaxed text-ink-secondary text-balance">
             {description}
           </p>
         ) : null}
+
+        {/* Row 4: Actions */}
         {actions ? (
-          <div className="mt-4 flex flex-wrap gap-2 border-t border-canvas-line/80 pt-4">
+          <div className="mt-6 flex flex-wrap gap-2 border-t border-border/50 pt-5">
             {actions}
           </div>
         ) : null}

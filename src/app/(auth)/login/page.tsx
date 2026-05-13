@@ -18,44 +18,29 @@ function LoginForm() {
     setError(null);
     const form = e.currentTarget;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-    const password = (form.elements.namedItem("password") as HTMLInputElement)
-      .value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement).value;
 
-    const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
+    const res = await signIn("credentials", { email, password, redirect: false });
     setPending(false);
 
     if (res?.error) {
-      // Check if the login failure is because the account is pending/rejected
       try {
         const statusRes = await fetch("/api/auth/status", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email }),
         });
-        const { status, role } = await statusRes.json() as {
-          status: string;
-          role: string;
-        };
+        const { status, role } = await statusRes.json() as { status: string; role: string };
         if (status === "pending" && role === "volunteer") {
-          setError(
-            "Your volunteer application is pending admin approval. You will be able to sign in once approved.",
-          );
+          setError("Your volunteer application is pending admin approval. You\u2019ll be able to sign in once approved.");
           return;
         }
         if (status === "rejected" && role === "volunteer") {
-          setError(
-            "Your volunteer application was not approved. Please contact an administrator for more information.",
-          );
+          setError("Your volunteer application was not approved. Please contact an administrator.");
           return;
         }
-      } catch {
-        // If the status check fails, fall through to generic error
-      }
-      setError("Invalid email or password.");
+      } catch { /* fall through */ }
+      setError("Invalid email or password. Please try again.");
       return;
     }
 
@@ -65,44 +50,35 @@ function LoginForm() {
 
   return (
     <main className="ro-page-narrow">
-      <p className="ro-eyebrow">Access</p>
+      <p className="ro-eyebrow">Welcome back</p>
       <h1 className="ro-title mt-2">Sign in</h1>
       <p className="ro-lead">
-        Use the account you registered—roles unlock different parts of the app.
+        Access your account to submit requests, volunteer, or manage operations.
       </p>
       {registered === "1" && (
-        <p className="mt-6 rounded-md border border-ok/30 bg-ok-soft px-3 py-2 text-sm text-ok">
-          Account created. You can sign in now.
-        </p>
+        <div className="mt-6 ro-alert-success">
+          Account created successfully. You can sign in now.
+        </div>
       )}
       {error && (
-        <p className="mt-6 rounded-md border border-danger/25 bg-danger-soft px-3 py-2 text-sm text-danger">
-          {error}
-        </p>
+        <div className="mt-6 ro-alert-error">{error}</div>
       )}
       <form onSubmit={onSubmit} className="ro-card mt-8 space-y-5">
         <label className="ro-label">
           Email
-          <input name="email" type="email" required className="ro-input" />
+          <input name="email" type="email" required placeholder="you@example.com" className="ro-input" />
         </label>
         <label className="ro-label">
           Password
-          <input
-            name="password"
-            type="password"
-            required
-            className="ro-input"
-          />
+          <input name="password" type="password" required placeholder="Your password" className="ro-input" />
         </label>
         <button type="submit" disabled={pending} className="ro-btn-primary w-full">
-          {pending ? "Signing in…" : "Sign in"}
+          {pending ? "Signing in\u2026" : "Sign in"}
         </button>
       </form>
-      <p className="mt-8 text-sm text-ink-muted">
+      <p className="mt-8 text-sm" style={{ color: "var(--color-ink-secondary)" }}>
         No account?{" "}
-        <Link href="/register" className="ro-link">
-          Register
-        </Link>
+        <Link href="/register" className="ro-link">Register</Link>
       </p>
     </main>
   );
@@ -110,13 +86,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense
-      fallback={
-        <main className="ro-page-narrow">
-          <p className="text-sm text-ink-muted">Loading…</p>
-        </main>
-      }
-    >
+    <Suspense fallback={<main className="ro-page-narrow"><div className="ro-skeleton h-4 w-24 rounded" /></main>}>
       <LoginForm />
     </Suspense>
   );

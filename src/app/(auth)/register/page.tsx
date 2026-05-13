@@ -9,33 +9,17 @@ import { connectMongo, isMongoConfigured } from "@/lib/mongodb";
 
 async function registerAction(formData: FormData) {
   "use server";
-  if (!isMongoConfigured()) {
-    redirect("/register?error=config");
-  }
-  const email = String(formData.get("email") ?? "")
-    .trim()
-    .toLowerCase();
+  if (!isMongoConfigured()) redirect("/register?error=config");
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const name = String(formData.get("name") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const role = String(formData.get("role") ?? ROLES.CITIZEN);
-  const allowed = new Set([
-    ROLES.CITIZEN,
-    ROLES.VOLUNTEER,
-    ROLES.ADMIN,
-    ROLES.SHELTER_MANAGER,
-  ]);
-  if (!email || !password) {
-    redirect("/register?error=fields");
-  }
-  if (!(allowed as Set<string>).has(role)) {
-    redirect("/register?error=role");
-  }
+  const allowed = new Set([ROLES.CITIZEN, ROLES.VOLUNTEER, ROLES.ADMIN, ROLES.SHELTER_MANAGER]);
+  if (!email || !password) redirect("/register?error=fields");
+  if (!(allowed as Set<string>).has(role)) redirect("/register?error=role");
   await connectMongo();
   const passwordHash = await bcrypt.hash(password, 10);
-
-  // Volunteers start as pending until an admin approves them
   const status = role === ROLES.VOLUNTEER ? "pending" : "active";
-
   let userId: string;
   try {
     const user = await UserModel.create({ email, passwordHash, role, name, status });
@@ -43,25 +27,13 @@ async function registerAction(formData: FormData) {
   } catch {
     redirect("/register?error=duplicate");
   }
-
-  // For volunteers, create an application record with their skills/message
   if (role === ROLES.VOLUNTEER) {
     const skillsRaw = String(formData.get("skills") ?? "").trim();
-    const skills = skillsRaw
-      ? skillsRaw.split(",").map((s) => s.trim()).filter(Boolean)
-      : [];
+    const skills = skillsRaw ? skillsRaw.split(",").map((s) => s.trim()).filter(Boolean) : [];
     const message = String(formData.get("message") ?? "").trim();
-    await VolunteerApplicationModel.create({
-      userId,
-      email,
-      name,
-      skills,
-      message,
-      status: "pending",
-    });
+    await VolunteerApplicationModel.create({ userId, email, name, skills, message, status: "pending" });
     redirect("/register?registered=volunteer");
   }
-
   redirect("/login?registered=1");
 }
 
@@ -75,50 +47,38 @@ export default async function RegisterPage({
   const registered = sp.registered;
 
   const msg =
-    err === "duplicate"
-      ? "Email already registered."
-      : err === "config"
-        ? "Database is not configured (set MONGODB_URI)."
-        : err === "fields"
-          ? "Email and password are required."
-          : err === "role"
-            ? "Invalid role."
-            : null;
+    err === "duplicate" ? "An account with this email already exists."
+    : err === "config" ? "Database is not configured. Please contact an administrator."
+    : err === "fields" ? "Email and password are required."
+    : err === "role" ? "Invalid role selected."
+    : null;
 
   return (
     <main className="ro-page-narrow">
-      <p className="ro-eyebrow">Onboarding</p>
-      <h1 className="ro-title mt-2">Register</h1>
+      <p className="ro-eyebrow">Get Started</p>
+      <h1 className="ro-title mt-2">Create your account</h1>
       <p className="ro-lead">
-        First admin for a fresh database: choose <strong>Admin</strong> once,
-        then use other roles for realistic demos.
+        Choose your role to access the right tools. Citizens can request help,
+        volunteers can offer assistance, and administrators manage operations.
       </p>
 
       {registered === "volunteer" && (
-        <div className="mt-6 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-4">
-          <p className="text-sm font-semibold text-amber-600 dark:text-amber-400">
-            ✓ Application submitted — pending admin approval
-          </p>
-          <p className="mt-1 text-xs text-ink-muted">
-            Your volunteer registration has been received. An admin will review your
-            application shortly. You will be able to log in once approved.
+        <div className="mt-6 ro-alert-warning">
+          <p className="font-medium text-sm">✓ Application submitted — pending admin approval</p>
+          <p className="mt-1 text-xs opacity-80">
+            Your volunteer registration has been received. An admin will review
+            your application shortly. You&apos;ll be able to sign in once approved.
           </p>
         </div>
       )}
 
-      {msg && (
-        <p className="mt-6 rounded-md border border-danger/25 bg-danger-soft px-3 py-2 text-sm text-danger">
-          {msg}
-        </p>
-      )}
+      {msg && <div className="mt-6 ro-alert-error">{msg}</div>}
 
       <RegisterForm action={registerAction} />
 
-      <p className="mt-8 text-sm text-ink-muted">
+      <p className="mt-8 text-sm" style={{ color: "var(--color-ink-secondary)" }}>
         Already have an account?{" "}
-        <Link href="/login" className="ro-link">
-          Sign in
-        </Link>
+        <Link href="/login" className="ro-link">Sign in</Link>
       </p>
     </main>
   );
