@@ -9,33 +9,71 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: "#0f766e",
-          hover: "#0d9488",
-          soft: "#ccfbf1",
-          deep: "#115e59",
+        trust: {
+          DEFAULT: "var(--color-trust)",
+          light: "var(--color-trust-light)",
+          soft: "var(--color-trust-soft)",
         },
-        canvas: {
-          DEFAULT: "#f8fafc",
-          line: "#e2e8f0",
-          deep: "#cbd5e1",
+        action: {
+          DEFAULT: "var(--color-action)",
+          soft: "var(--color-action-soft)",
+        },
+        critical: {
+          DEFAULT: "var(--color-critical)",
+        },
+        hazard: {
+          DEFAULT: "var(--color-hazard)",
+        },
+        caution: {
+          DEFAULT: "var(--color-caution)",
+        },
+        safe: {
+          DEFAULT: "var(--color-safe)",
+        },
+        steady: {
+          DEFAULT: "var(--color-steady)",
+        },
+        ground: {
+          DEFAULT: "var(--color-ground)",
         },
         surface: {
-          DEFAULT: "#ffffff",
-          mute: "#f1f5f9",
+          DEFAULT: "var(--color-surface)",
+          dim: "var(--color-surface-dim)",
+        },
+        border: {
+          DEFAULT: "var(--color-border)",
+          strong: "var(--color-border-strong)",
         },
         ink: {
-          DEFAULT: "#0f172a",
-          muted: "#475569",
-          faint: "#94a3b8",
-        },
-        accent: {
-          DEFAULT: "#e11d48",
+          DEFAULT: "var(--color-ink)",
+          secondary: "var(--color-ink-secondary)",
+          tertiary: "var(--color-ink-tertiary)",
         },
       },
       boxShadow: {
-        lift: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-        inset: "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
+        sm: "var(--shadow-sm)",
+        md: "var(--shadow-md)",
+        tactical: "var(--shadow-tactical)",
+      },
+      animation: {
+        "skeleton-pulse": "skeleton-pulse 1.8s ease-in-out infinite",
+        "subtle-pulse": "subtle-pulse 2s ease-in-out infinite",
+        "live-pulse": "live-pulse 1.5s infinite",
+      },
+      keyframes: {
+        "skeleton-pulse": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+        },
+        "subtle-pulse": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.7" },
+        },
+        "live-pulse": {
+          "0%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+          "100%": { opacity: "1" },
+        },
       },
     },
   },

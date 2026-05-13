@@ -3,6 +3,14 @@
 import { useEffect, useState } from "react";
 import { RequestCard } from "@/components/requests/RequestCard";
 
+/**
+ * CitizenRequestLog — Personal request history
+ *
+ * Loading: skeleton cards (not text — reduces perceived wait under stress)
+ * Empty: encouraging message (not passive)
+ * Error: compassionate with retry guidance
+ */
+
 type RequestItem = {
   id: string;
   type: string;
@@ -12,6 +20,19 @@ type RequestItem = {
   lat: number;
   lng: number;
 };
+
+function SkeletonCard() {
+  return (
+    <div className="ro-card space-y-3">
+      <div className="flex gap-2">
+        <div className="ro-skeleton h-5 w-20" />
+        <div className="ro-skeleton h-5 w-24" />
+      </div>
+      <div className="ro-skeleton h-3 w-32" />
+      <div className="ro-skeleton h-10 w-full" />
+    </div>
+  );
+}
 
 export function CitizenRequestLog() {
   const [requests, setRequests] = useState<RequestItem[]>([]);
@@ -36,29 +57,48 @@ export function CitizenRequestLog() {
   }, []);
 
   if (loading) {
-    return <div className="text-sm text-ink-muted mt-8 animate-pulse">Loading your requests...</div>;
+    return (
+      <div className="mt-12 border-t pt-8" style={{ borderColor: "var(--color-border)" }}>
+        <h2 className="ro-eyebrow mb-4">Your Requests</h2>
+        <div className="flex flex-col gap-4">
+          <SkeletonCard />
+          <SkeletonCard />
+        </div>
+      </div>
+    );
   }
 
   if (error) {
     return (
-      <div className="mt-8 rounded-md border border-danger/25 bg-danger-soft px-3 py-2 text-sm text-danger">
-        {error}
+      <div className="mt-8 ro-alert-error">
+        <p className="font-medium">Unable to load your request history</p>
+        <p className="mt-1 text-xs opacity-80">
+          {error}. Please refresh the page to try again.
+        </p>
       </div>
     );
   }
 
   if (requests.length === 0) {
     return (
-      <div className="mt-12 text-sm text-ink-muted">
-        <h2 className="ro-eyebrow mb-2">Your Request History</h2>
-        <p>You have not raised any requests yet.</p>
+      <div className="mt-12 border-t pt-8" style={{ borderColor: "var(--color-border)" }}>
+        <h2 className="ro-eyebrow mb-3">Your Requests</h2>
+        <div className="rounded-lg border px-6 py-8 text-center"
+             style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-dim)" }}>
+          <p className="text-sm" style={{ color: "var(--color-ink-secondary)" }}>
+            No requests submitted yet.
+          </p>
+          <p className="mt-1 text-xs" style={{ color: "var(--color-ink-tertiary)" }}>
+            When you need help, use the form above — we&apos;re here.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="mt-12 border-t border-canvas-line pt-8">
-      <h2 className="ro-eyebrow mb-4">Your Request History</h2>
+    <div className="mt-12 border-t pt-8" style={{ borderColor: "var(--color-border)" }}>
+      <h2 className="ro-eyebrow mb-4">Your Requests</h2>
       <div className="flex flex-col gap-4">
         {requests.map((req) => (
           <RequestCard
