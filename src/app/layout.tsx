@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   title: "ReliefOps — Crisis Relief Coordination",
   description:
     "Coordinate disaster relief with prioritized requests, transparent resource allocation, and volunteer management. Built for moments that matter.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/favicon.ico",
+    apple: "/icon.png",
+  },
 };
 
 export default function RootLayout({
