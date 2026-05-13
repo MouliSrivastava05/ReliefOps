@@ -29,38 +29,36 @@ export default function PendingApprovalPage() {
     <main className="ro-page flex min-h-[calc(100vh-4rem)] items-center justify-center">
       <div className="w-full max-w-md space-y-6 text-center">
         {/* Status icon */}
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full" style={{ backgroundColor: "var(--color-urgent-soft)" }}>
-          <svg className="h-10 w-10" style={{ color: "var(--color-urgent)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-hazard-soft/50 shadow-inner">
+          <svg className="h-10 w-10 text-hazard" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
           </svg>
         </div>
 
         <div className="space-y-2">
-          <h1 className="ro-title">Application Under Review</h1>
-          <p className="ro-lead" style={{ color: "var(--color-ink-secondary)" }}>
-            Your volunteer application has been submitted successfully.
+          <h1 className="ro-title">Review in Progress</h1>
+          <p className="ro-lead">
+            Your volunteer application is currently being verified.
           </p>
         </div>
 
         <div className="ro-alert-warning text-left space-y-3">
           <div className="flex items-center gap-2">
-            <div className="ro-live-dot" style={{ backgroundColor: "var(--color-urgent)" }} />
-            <span className="text-sm font-medium" style={{ color: "var(--color-ink)" }}>Pending admin approval</span>
+            <div className="ro-live-dot !bg-hazard" />
+            <span className="text-sm font-bold text-ink">Verification Pending</span>
           </div>
-          <p className="text-xs leading-relaxed" style={{ color: "var(--color-ink-secondary)" }}>
-            A ReliefOps administrator will review your credentials and background
-            information. Once approved, you&apos;ll be able to sign in and access the
-            volunteer portal.
+          <p className="text-xs leading-relaxed text-ink-secondary">
+            A ReliefOps administrator is reviewing your credentials and background
+            check. This process ensures field integrity and safety for all responders.
           </p>
-          <p className="text-xs" style={{ color: "var(--color-ink-tertiary)" }}>
-            You&apos;ll need to sign in again after your account is approved.
+          <p className="text-xs text-ink-tertiary">
+            You will receive access once the validation is complete.
           </p>
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-xs" style={{ color: "var(--color-ink-tertiary)" }}>
-            Signed in as{" "}
-            <span className="font-medium" style={{ color: "var(--color-ink-secondary)" }}>{session?.user?.email}</span>
+          <p className="text-xs text-ink-tertiary">
+            Signed in as <span className="font-bold text-ink-secondary">{session?.user?.email}</span>
           </p>
           <button
             id="pending-signout-btn"

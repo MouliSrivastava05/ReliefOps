@@ -58,8 +58,8 @@ export function CitizenRequestLog() {
 
   if (loading) {
     return (
-      <div className="mt-12 border-t pt-8" style={{ borderColor: "var(--color-border)" }}>
-        <h2 className="ro-eyebrow mb-4">Your Requests</h2>
+      <div className="mt-12 border-t border-border pt-8">
+        <h2 className="ro-eyebrow mb-4">Request History</h2>
         <div className="flex flex-col gap-4">
           <SkeletonCard />
           <SkeletonCard />
@@ -81,15 +81,14 @@ export function CitizenRequestLog() {
 
   if (requests.length === 0) {
     return (
-      <div className="mt-12 border-t pt-8" style={{ borderColor: "var(--color-border)" }}>
-        <h2 className="ro-eyebrow mb-3">Your Requests</h2>
-        <div className="rounded-lg border px-6 py-8 text-center"
-             style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-dim)" }}>
-          <p className="text-sm" style={{ color: "var(--color-ink-secondary)" }}>
-            No requests submitted yet.
+      <div className="mt-12 border-t border-border pt-8">
+        <h2 className="ro-eyebrow mb-3">Request History</h2>
+        <div className="rounded-xl border border-border bg-surface-dim/30 px-6 py-12 text-center">
+          <p className="text-sm font-medium text-ink-secondary">
+            No previous requests found.
           </p>
-          <p className="mt-1 text-xs" style={{ color: "var(--color-ink-tertiary)" }}>
-            When you need help, use the form above — we&apos;re here.
+          <p className="mt-1 text-xs text-ink-tertiary">
+            When you need help, use the form above to alert coordinates.
           </p>
         </div>
       </div>
@@ -97,8 +96,8 @@ export function CitizenRequestLog() {
   }
 
   return (
-    <div className="mt-12 border-t pt-8" style={{ borderColor: "var(--color-border)" }}>
-      <h2 className="ro-eyebrow mb-4">Your Requests</h2>
+    <div className="mt-12 border-t border-border pt-8">
+      <h2 className="ro-eyebrow mb-4">Request History</h2>
       <div className="flex flex-col gap-4">
         {requests.map((req) => (
           <RequestCard
