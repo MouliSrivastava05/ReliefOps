@@ -1,15 +1,13 @@
 /**
- * PriorityBadge — Severity-scaled visual indicator
- *
- * S5 (Critical) DEMANDS attention. S1 (Low) recedes.
+ * PriorityBadge — Severity indicator with graduated intensity
  */
 
-const SEVERITY_CONFIG: Record<number, { label: string; className: string; color: string }> = {
-  5: { label: "CRITICAL", className: "bg-critical text-white", color: "var(--color-critical)" },
-  4: { label: "URGENT",   className: "bg-hazard text-white",   color: "var(--color-hazard)" },
-  3: { label: "SERIOUS",  className: "bg-caution text-white",  color: "var(--color-caution)" },
-  2: { label: "MODERATE", className: "bg-action text-white",   color: "var(--color-action)" },
-  1: { label: "STABLE",   className: "bg-steady text-white",   color: "var(--color-steady)" },
+const SEVERITY_CONFIG: Record<number, { label: string; color: string; bg: string }> = {
+  5: { label: "Critical", color: "#fff",                    bg: "var(--color-critical)" },
+  4: { label: "Urgent",   color: "#fff",                    bg: "var(--color-hazard)" },
+  3: { label: "Serious",  color: "var(--color-hazard)",     bg: "var(--color-hazard-soft)" },
+  2: { label: "Moderate", color: "var(--color-action)",     bg: "var(--color-action-soft)" },
+  1: { label: "Stable",   color: "var(--color-ink-tertiary)", bg: "var(--color-surface-dim)" },
 };
 
 export function PriorityBadge({ level }: { level: string | number }) {
@@ -18,8 +16,9 @@ export function PriorityBadge({ level }: { level: string | number }) {
   const config = SEVERITY_CONFIG[clamped];
 
   return (
-    <span 
-      className={`ro-badge px-3 py-1 font-black ${config.className}`} 
+    <span
+      className="inline-flex items-center rounded-lg px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider"
+      style={{ backgroundColor: config.bg, color: config.color }}
       aria-label={`Priority: ${config.label}`}
     >
       {config.label}

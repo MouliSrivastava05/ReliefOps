@@ -3,210 +3,281 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════════════════════════
-   ReliefOps Design System — V2 High-End Polish
-   Philosophy: "Solid Ground" — Professional, Deep, Authoritative.
-   Target Aesthetic: Linear.app / Stripe / Vercel
+   ReliefOps Design System — V3 "Calm Operations"
+   Philosophy: Minimal, intelligent, emotionally calming,
+   and operationally excellent.
+   Target Aesthetic: Mission control meets calm productivity.
    ═══════════════════════════════════════════════════════════════ */
 
 @layer base {
   :root {
     color-scheme: light;
 
-    /* ── Operational Foundation (Tactical & Deep) ── */
-    --color-trust:       #020617; /* Deepest Indigo/Black */
-    --color-trust-light: #0f172a;
+    /* ── Foundation ── */
+    --color-trust:       #0f172a;
+    --color-trust-light: #1e293b;
     --color-trust-soft:  #f1f5f9;
-    
-    /* ── Action & Logic ── */
-    --color-action:      #2563eb; /* Tactical Blue */
-    --color-action-soft: #eff6ff;
 
-    /* ── Safety Signals (Standard Emergency Palette) ── */
-    --color-critical:    #e11d48; /* Crisis Red */
-    --color-hazard:      #f97316; /* Safety Orange */
-    --color-caution:     #f59e0b; /* Warning Yellow */
-    --color-safe:        #10b981; /* Success Green */
-    --color-steady:      #0ea5e9; /* Information Blue */
+    /* ── Accent (Muted Teal) ── */
+    --color-action:      #0d9488;
+    --color-action-soft: #f0fdfa;
+    --color-action-muted: #5eead4;
 
-    /* ── Neutrals (High Contrast) ── */
+    /* ── Signals ── */
+    --color-critical:    #dc2626;
+    --color-critical-soft: #fef2f2;
+    --color-hazard:      #d97706;
+    --color-hazard-soft:  #fffbeb;
+    --color-caution:     #ca8a04;
+    --color-safe:        #059669;
+    --color-safe-soft:   #ecfdf5;
+    --color-steady:      #0284c7;
+    --color-steady-soft: #f0f9ff;
+
+    /* ── Neutrals ── */
     --color-ground:      #f8fafc;
     --color-surface:     #ffffff;
     --color-surface-dim: #f1f5f9;
+    --color-surface-raised: #ffffff;
     --color-border:      #e2e8f0;
-    --color-border-strong: #94a3b8;
-    --color-ink:         #020617;
+    --color-border-strong: #cbd5e1;
+    --color-ink:         #0f172a;
     --color-ink-secondary: #475569;
     --color-ink-tertiary:  #94a3b8;
+    --color-ink-ghost:     #cbd5e1;
 
     /* ── Radius ── */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-full: 9999px;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
 
-    /* ── Shadows (Tactical/Flat) ── */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    --shadow-tactical: 0 0 0 1px var(--color-border), 0 2px 4px 0 rgb(0 0 0 / 0.05);
+    /* ── Shadows ── */
+    --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.03);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.03);
+    --shadow-glow: 0 0 40px -8px rgba(13, 148, 136, 0.12);
+    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.04), 0 0 0 1px rgb(0 0 0 / 0.02);
   }
 
   body {
     background-color: var(--color-ground);
     color: var(--color-ink);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }
 
 @layer components {
   /* ── Layouts ── */
-  .ro-page { @apply mx-auto max-w-4xl px-5 pb-24 pt-12 sm:px-8; }
-  .ro-page-wide { @apply mx-auto max-w-7xl px-5 pb-24 pt-12 sm:px-8; }
+  .ro-page { @apply mx-auto max-w-3xl px-5 pb-24 pt-16 sm:px-8; }
+  .ro-page-wide { @apply mx-auto max-w-7xl px-5 pb-24 pt-16 sm:px-8; }
 
-  /* ── Typography (Tactical Hierarchy) ── */
+  /* ── Typography ── */
+  .ro-overline {
+    @apply text-[0.6rem] font-semibold uppercase tracking-[0.2em];
+    color: var(--color-ink-tertiary);
+  }
   .ro-eyebrow {
-    @apply text-[0.65rem] font-bold uppercase tracking-[0.15em] text-ink-tertiary;
+    @apply text-[0.65rem] font-semibold uppercase tracking-[0.15em];
+    color: var(--color-action);
   }
   .ro-title {
-    @apply text-3xl font-extrabold tracking-tight text-ink sm:text-5xl;
-    line-height: 1.1;
+    @apply text-3xl font-extrabold tracking-tight sm:text-5xl;
+    color: var(--color-ink);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
   }
   .ro-lead {
-    @apply mt-4 text-base leading-relaxed text-ink-secondary sm:text-lg;
+    @apply mt-5 text-base leading-relaxed sm:text-lg;
+    color: var(--color-ink-secondary);
+  }
+  .ro-section-title {
+    @apply text-sm font-semibold;
+    color: var(--color-ink);
   }
 
-  /* ── Tactical Tiles (High-Stress Selection) ── */
+  /* ── Cards ── */
+  .ro-card {
+    @apply rounded-2xl border p-6;
+    border-color: var(--color-border);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+  .ro-card-glass {
+    @apply rounded-2xl border p-6;
+    border-color: rgba(226, 232, 240, 0.6);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* ── Tiles ── */
   .ro-tile-grid {
     @apply grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
   }
   .ro-tile {
-    @apply relative flex flex-col items-center justify-center gap-3 rounded-xl border-2 bg-surface p-6 text-center transition-all duration-200 cursor-pointer active:scale-95;
+    @apply relative flex flex-col items-center justify-center gap-3 rounded-2xl border-2 p-6 text-center transition-all duration-300 cursor-pointer;
     border-color: var(--color-border);
+    background-color: var(--color-surface);
   }
   .ro-tile:hover {
     border-color: var(--color-action);
     background-color: var(--color-action-soft);
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
+  }
+  .ro-tile:active {
+    transform: scale(0.97);
   }
   .ro-tile-selected {
     border-color: var(--color-action);
     background-color: var(--color-action-soft);
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.08), var(--shadow-glow);
   }
   .ro-tile-icon {
-    @apply flex h-12 w-12 items-center justify-center rounded-full bg-surface-dim text-ink-secondary transition-colors;
+    @apply flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300;
+    background-color: var(--color-surface-dim);
+    color: var(--color-ink-secondary);
   }
   .ro-tile-selected .ro-tile-icon {
     background-color: var(--color-action);
-    @apply text-white;
+    color: white;
   }
 
-  /* ── Alerts (Mission Critical Feedback) ── */
+  /* ── Alerts ── */
   .ro-alert {
-    @apply flex items-start gap-3 rounded-lg border p-4 text-sm font-medium;
-    animation: ro-alert-fade 0.3s ease-out;
+    @apply flex items-start gap-3 rounded-xl border p-4 text-sm;
+    animation: ro-alert-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .ro-alert-success {
     @apply ro-alert;
-    border-color: rgba(16, 185, 129, 0.2);
-    background-color: rgba(16, 185, 129, 0.05);
+    border-color: rgba(5, 150, 105, 0.15);
+    background-color: var(--color-safe-soft);
     color: var(--color-safe);
   }
   .ro-alert-error {
     @apply ro-alert;
-    border-color: rgba(225, 29, 72, 0.2);
-    background-color: rgba(225, 29, 72, 0.05);
+    border-color: rgba(220, 38, 38, 0.15);
+    background-color: var(--color-critical-soft);
     color: var(--color-critical);
   }
   .ro-alert-warning {
     @apply ro-alert;
-    border-color: rgba(249, 115, 22, 0.2);
-    background-color: rgba(249, 115, 22, 0.05);
+    border-color: rgba(217, 119, 6, 0.15);
+    background-color: var(--color-hazard-soft);
     color: var(--color-hazard);
   }
 
-  /* ── Buttons (Tactical Utility) ── */
+  /* ── Buttons ── */
   .ro-btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-bold transition-all active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none;
   }
+  .ro-btn:active { transform: scale(0.97); }
+
   .ro-btn-primary {
-    @apply ro-btn text-white shadow-md;
+    @apply ro-btn text-white;
     background-color: var(--color-trust);
+    box-shadow: var(--shadow-sm);
   }
   .ro-btn-primary:hover {
     background-color: var(--color-trust-light);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
   }
   .ro-btn-action {
-    @apply ro-btn text-white shadow-md;
+    @apply ro-btn text-white;
     background-color: var(--color-action);
+    box-shadow: var(--shadow-sm);
   }
   .ro-btn-action:hover {
-    @apply bg-blue-700;
+    opacity: 0.9;
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-1px);
   }
   .ro-btn-secondary {
-    @apply ro-btn border-2 border-border bg-white text-ink hover:bg-surface-dim;
+    @apply ro-btn border;
+    border-color: var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+  }
+  .ro-btn-secondary:hover {
+    background-color: var(--color-surface-dim);
+    border-color: var(--color-border-strong);
+  }
+  .ro-btn-ghost {
+    @apply ro-btn;
+    color: var(--color-ink-secondary);
+  }
+  .ro-btn-ghost:hover {
+    background-color: var(--color-surface-dim);
+    color: var(--color-ink);
   }
   .ro-btn-sos {
-    @apply ro-btn text-white text-lg py-5 px-10 shadow-lg active:scale-95;
-    background-color: var(--color-critical);
-    box-shadow: 0 10px 15px -3px rgba(225, 29, 72, 0.2);
-    animation: sos-pulse 2s infinite;
+    @apply ro-btn text-white text-base py-4 px-10 font-bold;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    box-shadow: 0 8px 24px -4px rgba(220, 38, 38, 0.25);
+    animation: sos-breathe 3s ease-in-out infinite;
   }
   .ro-btn-sos:hover {
-    @apply scale-[1.02];
+    box-shadow: 0 12px 32px -4px rgba(220, 38, 38, 0.35);
+    transform: translateY(-2px);
   }
 
-  /* ── Cards & Containers ── */
-  .ro-card {
-    @apply rounded-xl border border-border bg-surface p-6 shadow-sm;
-  }
-  .ro-card-header {
-    @apply border-b border-border -mx-6 -mt-6 px-6 py-4 mb-6 bg-surface-dim/50 rounded-t-xl;
-  }
-
-  /* ── Inputs (Clean & Focused) ── */
+  /* ── Inputs ── */
   .ro-input {
-    @apply w-full rounded-lg border-2 border-border bg-surface px-4 py-3 text-sm font-medium transition-all outline-none;
+    @apply w-full rounded-xl border px-4 py-3 text-sm transition-all duration-200 outline-none;
+    border-color: var(--color-border);
+    background-color: var(--color-surface);
   }
   .ro-input:focus {
     border-color: var(--color-action);
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.08);
+  }
+  .ro-input::placeholder {
+    color: var(--color-ink-ghost);
   }
   .ro-label {
-    @apply block text-xs font-bold uppercase tracking-wider text-ink-secondary mb-2;
+    @apply block text-xs font-semibold uppercase tracking-wider mb-2;
+    color: var(--color-ink-secondary);
   }
 
-  /* ── Badges & Status ── */
+  /* ── Badges ── */
   .ro-badge {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[0.65rem] font-black uppercase tracking-widest border;
+    @apply inline-flex items-center rounded-lg px-2.5 py-1 text-[0.6rem] font-semibold uppercase tracking-wider;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface-dim);
+    color: var(--color-ink-secondary);
   }
   .ro-status-dot {
     @apply h-2 w-2 rounded-full;
   }
-  /* ── Skeleton Loading ── */
+
+  /* ── Skeleton ── */
   .ro-skeleton {
-    @apply bg-surface-dim animate-skeleton-pulse;
+    background: linear-gradient(90deg, var(--color-surface-dim) 25%, rgba(241,245,249,0.5) 50%, var(--color-surface-dim) 75%);
+    background-size: 200% 100%;
+    animation: ro-shimmer 1.8s ease-in-out infinite;
+    border-radius: var(--radius-lg);
   }
 }
 
-@keyframes sos-pulse {
-  0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.4); }
-  70% { box-shadow: 0 0 0 15px rgba(225, 29, 72, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
-}
-
-@keyframes live-pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+/* ── Animations ── */
+@keyframes sos-breathe {
+  0%, 100% { box-shadow: 0 8px 24px -4px rgba(220, 38, 38, 0.25); }
+  50% { box-shadow: 0 8px 32px -2px rgba(220, 38, 38, 0.35); }
 }
 
 @keyframes ro-alert-fade {
-  from { opacity: 0; transform: translateY(-10px); }
+  from { opacity: 0; transform: translateY(-8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes ro-fade-up {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -215,18 +286,23 @@
   to { opacity: 1; }
 }
 
-.ro-fade-up {
-  animation: ro-fade-up 0.5s ease-out forwards;
+@keyframes ro-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
-.ro-fade-in {
-  animation: ro-fade-in 0.5s ease-out forwards;
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
 }
+
+.ro-fade-up { animation: ro-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.ro-fade-in { animation: ro-fade-in 0.5s ease-out forwards; }
 
 .ro-live-dot {
   @apply h-2 w-2 rounded-full;
   background-color: var(--color-safe);
-  animation: live-pulse 1.5s infinite;
+  animation: live-pulse 2s ease-in-out infinite;
 }
 
 @layer utilities {

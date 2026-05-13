@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * RequestTimeline — Connected progress visualization
+ * RequestTimeline — Clean stepper visualization
  */
 
 const MAIN_PATH = [
@@ -18,18 +18,18 @@ const STEP_LABELS: Record<string, string> = {
   VALIDATED: "Confirmed",
   QUEUED: "Queued",
   ALLOCATED: "Matched",
-  IN_PROGRESS: "On Way",
+  IN_PROGRESS: "En Route",
   COMPLETED: "Resolved",
 };
 
 export function RequestTimeline({ current }: { current: string }) {
   if (current === "CANCELLED") {
     return (
-      <div className="ro-alert-error bg-surface-dim border-dashed">
-        <span className="text-lg">✖</span>
+      <div className="ro-alert-warning">
+        <span>—</span>
         <div>
-          <p className="font-bold">Request Cancelled</p>
-          <p className="text-xs opacity-75">This request is no longer active.</p>
+          <p className="font-semibold">Request cancelled</p>
+          <p className="text-xs opacity-75 mt-0.5">This request is no longer active.</p>
         </div>
       </div>
     );
@@ -38,7 +38,7 @@ export function RequestTimeline({ current }: { current: string }) {
   const idx = MAIN_PATH.indexOf(current as (typeof MAIN_PATH)[number]);
 
   return (
-    <ol className="flex flex-wrap items-center gap-y-6" aria-label="Request progress">
+    <ol className="flex flex-wrap items-center gap-y-4" aria-label="Request progress">
       {MAIN_PATH.map((step, i) => {
         const isCompleted = idx >= 0 && i < idx;
         const isCurrent = idx >= 0 && i === idx;
@@ -46,40 +46,45 @@ export function RequestTimeline({ current }: { current: string }) {
 
         return (
           <li key={step} className="flex items-center">
-            {/* Step indicator */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5">
               <div
-                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-black transition-all ${
-                  isCompleted
-                    ? "bg-safe text-white"
+                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[0.6rem] font-bold transition-all"
+                style={{
+                  backgroundColor: isCompleted
+                    ? "var(--color-safe)"
                     : isCurrent
-                      ? "bg-action text-white ring-4 ring-action/20"
-                      : "bg-surface-dim text-ink-tertiary border-2 border-border"
-                }`}
+                      ? "var(--color-action)"
+                      : "var(--color-surface-dim)",
+                  color: isCompleted || isCurrent ? "#fff" : "var(--color-ink-tertiary)",
+                  boxShadow: isCurrent ? "0 0 0 4px rgba(13,148,136,0.1)" : "none",
+                }}
               >
                 {isCompleted ? "✓" : i + 1}
               </div>
               <div className="flex flex-col">
                 <span
-                  className={`text-[0.65rem] uppercase tracking-widest leading-none ${
-                    isCompleted || isCurrent ? "font-black text-ink" : "font-bold text-ink-tertiary"
-                  }`}
+                  className="text-[0.6rem] uppercase tracking-wider leading-none font-semibold"
+                  style={{
+                    color: isCompleted || isCurrent ? "var(--color-ink)" : "var(--color-ink-tertiary)",
+                  }}
                 >
                   {STEP_LABELS[step] ?? step}
                 </span>
                 {isCurrent && (
-                  <span className="text-[0.6rem] font-bold text-action animate-pulse mt-1">
-                    CURRENT STEP
+                  <span className="text-[0.5rem] font-semibold mt-1" style={{ color: "var(--color-action)" }}>
+                    Current
                   </span>
                 )}
               </div>
             </div>
-            {/* Connector */}
             {i < MAIN_PATH.length - 1 && (
               <div
-                className={`mx-4 h-0.5 w-6 sm:w-10 ${
-                  isFuture ? "border-t-2 border-dashed border-border" : "bg-safe"
-                }`}
+                className="mx-3 h-px w-5 sm:w-8"
+                style={{
+                  backgroundColor: isFuture ? "transparent" : "var(--color-safe)",
+                  borderTop: isFuture ? "2px dashed var(--color-border)" : "none",
+                  height: isFuture ? "0" : "2px",
+                }}
               />
             )}
           </li>

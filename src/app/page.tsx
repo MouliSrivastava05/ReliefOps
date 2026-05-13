@@ -1,161 +1,147 @@
 import Link from "next/link";
-import Image from "next/image";
 import { IconEmergency, IconVolunteer, IconDashboard, IconSearch } from "@/components/common/Icons";
-
-/**
- * HomePage — Command Hub Redesign
- * 
- * Aesthetic: High-fidelity operational utility.
- * Focus: Immediate action for citizens, rapid entry for professionals.
- */
 
 export default function HomePage() {
   return (
     <main className="relative min-h-screen overflow-hidden">
-      {/* Tactical Grid Background */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" 
-           style={{ backgroundImage: `radial-gradient(var(--color-ink) 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
+      {/* Ambient gradient */}
+      <div
+        className="absolute top-0 right-0 w-[800px] h-[800px] pointer-events-none opacity-30"
+        style={{
+          background: "radial-gradient(circle at 70% 20%, rgba(13,148,136,0.12) 0%, transparent 60%)",
+        }}
+      />
+      <div
+        className="absolute bottom-0 left-0 w-[600px] h-[600px] pointer-events-none opacity-20"
+        style={{
+          background: "radial-gradient(circle at 30% 80%, rgba(15,23,42,0.08) 0%, transparent 60%)",
+        }}
+      />
 
-      <div className="ro-page-wide relative z-10 pt-20">
-        <div className="grid gap-20 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-          
-          {/* Hero Content */}
-          <section className="space-y-10">
+      <div className="ro-page-wide relative z-10 pt-8 sm:pt-16">
+        <div className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-24">
+
+          {/* Hero */}
+          <section className="space-y-8">
             <div>
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-8">
                 <span className="ro-live-dot" />
-                <p className="ro-eyebrow !text-ink font-black">Active Coordination Network</p>
+                <span className="ro-eyebrow">Coordination Active</span>
               </div>
-              <h1 className="ro-title text-balance text-6xl sm:text-7xl">
-                Unifying response in moments of crisis.
+              <h1 className="ro-title text-balance" style={{ fontSize: "clamp(2.2rem, 5vw, 3.8rem)" }}>
+                Intelligent response when every second matters.
               </h1>
-              <p className="ro-lead text-balance max-w-xl">
-                ReliefOps is the digital infrastructure for modern disaster response. 
-                Connecting citizens in need with volunteers and resources through 
-                high-fidelity coordination.
+              <p className="ro-lead text-balance max-w-lg">
+                ReliefOps connects citizens, volunteers, and coordinators through
+                a unified platform designed for clarity under pressure.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-4">
-              <Link href="/register" className="ro-btn-primary px-10 py-4 text-base">
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Link href="/register" className="ro-btn-primary px-8 py-3.5">
                 Get Started
               </Link>
-              <Link href="/login" className="ro-btn-secondary px-10 py-4 text-base">
-                System Sign-In
+              <Link href="/login" className="ro-btn-secondary px-8 py-3.5">
+                Sign In
               </Link>
             </div>
 
-            <div className="pt-12 grid grid-cols-3 gap-10 border-t-2 border-border/50 max-w-md">
-              <div>
-                <p className="text-3xl font-black text-ink">99.9%</p>
-                <p className="text-[0.6rem] font-bold uppercase tracking-widest text-ink-tertiary mt-1">Uptime</p>
-              </div>
-              <div>
-                <p className="text-3xl font-black text-ink">LAT/LNG</p>
-                <p className="text-[0.6rem] font-bold uppercase tracking-widest text-ink-tertiary mt-1">Precision</p>
-              </div>
-              <div>
-                <p className="text-3xl font-black text-ink">DIRECT</p>
-                <p className="text-[0.6rem] font-bold uppercase tracking-widest text-ink-tertiary mt-1">Allocation</p>
-              </div>
+            <div className="pt-10 flex items-center gap-8 border-t" style={{ borderColor: "var(--color-border)" }}>
+              {[
+                { val: "99.9%", label: "Uptime" },
+                { val: "GPS", label: "Precision" },
+                { val: "Auto", label: "Matching" },
+              ].map((s, i) => (
+                <div key={i}>
+                  <p className="text-xl font-bold" style={{ color: "var(--color-ink)" }}>{s.val}</p>
+                  <p className="text-[0.6rem] font-medium uppercase tracking-wider mt-0.5" style={{ color: "var(--color-ink-tertiary)" }}>{s.label}</p>
+                </div>
+              ))}
             </div>
           </section>
 
-          {/* Quick Access Grid */}
-          <section className="space-y-6">
-            <div className="flex items-center justify-between px-2">
-              <p className="ro-eyebrow !text-ink font-black">Operational Gateways</p>
-              <span className="text-[0.6rem] font-bold text-ink-tertiary">SECURE ACCESS</span>
-            </div>
-            
-            <div className="grid gap-4">
-              {/* SOS - Citizen */}
-              <Link href="/submit-request" className="group ro-card !p-0 overflow-hidden border-2 border-critical shadow-lg shadow-critical/5 hover:scale-[1.02] transition-all">
-                <div className="flex items-stretch">
-                  <div className="w-3 bg-critical shrink-0 group-hover:w-5 transition-all" />
-                  <div className="p-8 flex-1 flex items-center justify-between">
-                    <div>
-                      <h3 className="text-xl font-black text-ink uppercase tracking-tight">I Need Urgent Help</h3>
-                      <p className="text-xs text-ink-secondary mt-1 font-medium opacity-70">Immediate SOS submission to triage.</p>
-                    </div>
-                    <IconEmergency size={32} className="text-critical group-hover:rotate-12 transition-transform" />
+          {/* Gateway Cards */}
+          <section className="space-y-4">
+            <p className="ro-overline px-1 mb-2">Quick Access</p>
+
+            {/* SOS */}
+            <Link href="/submit-request" className="group block ro-card !p-0 overflow-hidden transition-all duration-300 hover:shadow-lg" style={{ borderColor: "rgba(220,38,38,0.2)" }}>
+              <div className="flex items-stretch">
+                <div className="w-1.5 shrink-0 transition-all duration-300 group-hover:w-3" style={{ backgroundColor: "var(--color-critical)" }} />
+                <div className="p-6 sm:p-7 flex-1 flex items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-lg font-bold" style={{ color: "var(--color-ink)" }}>I Need Help</h3>
+                    <p className="text-xs mt-1" style={{ color: "var(--color-ink-tertiary)" }}>Submit an emergency request for immediate coordination.</p>
+                  </div>
+                  <div className="h-11 w-11 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-110" style={{ backgroundColor: "var(--color-critical-soft)" }}>
+                    <IconEmergency size={20} style={{ color: "var(--color-critical)" }} />
                   </div>
                 </div>
-              </Link>
-
-              {/* Portal - Volunteer */}
-              <Link href="/portal" className="group ro-card !p-0 overflow-hidden border-2 hover:border-action transition-all">
-                <div className="flex items-stretch">
-                  <div className="w-3 bg-action shrink-0 group-hover:w-5 transition-all" />
-                  <div className="p-8 flex-1 flex items-center justify-between">
-                    <div>
-                      <h3 className="text-xl font-black text-ink uppercase tracking-tight">Field Portal</h3>
-                      <p className="text-xs text-ink-secondary mt-1 font-medium opacity-70">Access tasks and deployment status.</p>
-                    </div>
-                    <IconVolunteer size={32} className="text-action group-hover:-translate-y-1 transition-transform" />
-                  </div>
-                </div>
-              </Link>
-
-              {/* Admin - Coordination */}
-              <Link href="/dashboard" className="group ro-card !p-0 overflow-hidden border-2 hover:border-trust transition-all">
-                <div className="flex items-stretch">
-                  <div className="w-3 bg-trust shrink-0 group-hover:w-5 transition-all" />
-                  <div className="p-8 flex-1 flex items-center justify-between">
-                    <div>
-                      <h3 className="text-xl font-black text-ink uppercase tracking-tight">Mission Control</h3>
-                      <p className="text-xs text-ink-secondary mt-1 font-medium opacity-70">Resource and personnel management.</p>
-                    </div>
-                    <IconDashboard size={32} className="text-trust group-hover:scale-110 transition-transform" />
-                  </div>
-                </div>
-              </Link>
-
-              {/* Track - Search */}
-              <div className="ro-card !p-6 bg-surface-dim/50 border-2 border-dashed border-border-strong">
-                <div className="flex items-center gap-2 mb-4">
-                  <IconSearch size={14} className="text-ink-tertiary" />
-                  <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-ink-tertiary">Track Active Request</h4>
-                </div>
-                <Link href="/track" className="flex items-center justify-between p-4 rounded-lg border-2 border-border bg-white hover:border-action transition-colors shadow-sm">
-                  <span className="text-xs font-bold text-ink-tertiary">ENTER TRACKING ID...</span>
-                  <span className="ro-badge bg-trust text-white px-4 py-1.5 font-black">SEARCH</span>
-                </Link>
               </div>
-            </div>
+            </Link>
+
+            {/* Volunteer */}
+            <Link href="/portal" className="group block ro-card !p-0 overflow-hidden transition-all duration-300 hover:shadow-lg">
+              <div className="flex items-stretch">
+                <div className="w-1.5 shrink-0 transition-all duration-300 group-hover:w-3" style={{ backgroundColor: "var(--color-action)" }} />
+                <div className="p-6 sm:p-7 flex-1 flex items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-lg font-bold" style={{ color: "var(--color-ink)" }}>Volunteer Portal</h3>
+                    <p className="text-xs mt-1" style={{ color: "var(--color-ink-tertiary)" }}>View assignments and update your field status.</p>
+                  </div>
+                  <div className="h-11 w-11 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-110" style={{ backgroundColor: "var(--color-action-soft)" }}>
+                    <IconVolunteer size={20} style={{ color: "var(--color-action)" }} />
+                  </div>
+                </div>
+              </div>
+            </Link>
+
+            {/* Dashboard */}
+            <Link href="/dashboard" className="group block ro-card !p-0 overflow-hidden transition-all duration-300 hover:shadow-lg">
+              <div className="flex items-stretch">
+                <div className="w-1.5 shrink-0 transition-all duration-300 group-hover:w-3" style={{ backgroundColor: "var(--color-trust)" }} />
+                <div className="p-6 sm:p-7 flex-1 flex items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-lg font-bold" style={{ color: "var(--color-ink)" }}>Operations Dashboard</h3>
+                    <p className="text-xs mt-1" style={{ color: "var(--color-ink-tertiary)" }}>Resource management and allocation oversight.</p>
+                  </div>
+                  <div className="h-11 w-11 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-110" style={{ backgroundColor: "var(--color-surface-dim)" }}>
+                    <IconDashboard size={20} style={{ color: "var(--color-ink-secondary)" }} />
+                  </div>
+                </div>
+              </div>
+            </Link>
+
+            {/* Track */}
+            <Link href="/track" className="group block ro-card transition-all duration-300 hover:shadow-md" style={{ borderStyle: "dashed" }}>
+              <div className="flex items-center gap-3">
+                <div className="h-9 w-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: "var(--color-surface-dim)" }}>
+                  <IconSearch size={16} style={{ color: "var(--color-ink-tertiary)" }} />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium" style={{ color: "var(--color-ink)" }}>Track a Request</p>
+                  <p className="text-[0.65rem] mt-0.5" style={{ color: "var(--color-ink-tertiary)" }}>Enter your tracking ID to check status.</p>
+                </div>
+                <span className="text-[0.6rem] font-semibold uppercase tracking-wider px-3 py-1.5 rounded-lg" style={{ backgroundColor: "var(--color-surface-dim)", color: "var(--color-ink-tertiary)" }}>
+                  Search →
+                </span>
+              </div>
+            </Link>
           </section>
         </div>
 
-        {/* System Visualization */}
-        <section className="mt-32 relative rounded-3xl overflow-hidden border-4 border-border shadow-[0_0_80px_-20px_rgba(37,99,235,0.2)]">
-          <Image 
-            src="/Users/meghna/.gemini/antigravity/brain/79b7d066-0123-4eaa-a0c8-a0d293bd5eda/reliefops_hero_abstract_1778152257564.png"
-            alt="ReliefOps Infrastructure"
-            width={1600}
-            height={900}
-            className="w-full object-cover grayscale-[0.4] brightness-[0.8] contrast-[1.2]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-trust via-trust/20 to-transparent pointer-events-none" />
-          <div className="absolute bottom-12 left-12 right-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <p className="ro-eyebrow !text-white opacity-80">Infrastructure Visualizer</p>
-              <h2 className="text-2xl font-black text-white mt-2">Real-time allocation vectors and response nodes.</h2>
-            </div>
-            <div className="flex items-center gap-6">
-              <div className="text-right">
-                <p className="text-white font-black text-2xl">4,120+</p>
-                <p className="text-[0.6rem] font-bold uppercase tracking-widest text-white/60 mt-1">Nodes Active</p>
-              </div>
-              <div className="h-10 w-px bg-white/20" />
-              <div className="text-right">
-                <p className="text-white font-black text-2xl">240ms</p>
-                <p className="text-[0.6rem] font-bold uppercase tracking-widest text-white/60 mt-1">Match Latency</p>
-              </div>
-            </div>
+        {/* Trust bar */}
+        <div className="mt-24 pt-10 border-t flex flex-col sm:flex-row items-center justify-between gap-6" style={{ borderColor: "var(--color-border)" }}>
+          <p className="text-xs" style={{ color: "var(--color-ink-tertiary)" }}>
+            Designed for reliability. Built for the moments that matter most.
+          </p>
+          <div className="flex items-center gap-6">
+            {["Strategy Pattern", "Observer Pattern", "Priority Queue"].map((t, i) => (
+              <span key={i} className="ro-badge">{t}</span>
+            ))}
           </div>
-        </section>
+        </div>
       </div>
     </main>
   );
 }
-

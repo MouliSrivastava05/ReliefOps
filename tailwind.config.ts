@@ -17,28 +17,30 @@ const config: Config = {
         action: {
           DEFAULT: "var(--color-action)",
           soft: "var(--color-action-soft)",
+          muted: "var(--color-action-muted)",
         },
         critical: {
           DEFAULT: "var(--color-critical)",
+          soft: "var(--color-critical-soft)",
         },
         hazard: {
           DEFAULT: "var(--color-hazard)",
+          soft: "var(--color-hazard-soft)",
         },
-        caution: {
-          DEFAULT: "var(--color-caution)",
-        },
+        caution: { DEFAULT: "var(--color-caution)" },
         safe: {
           DEFAULT: "var(--color-safe)",
+          soft: "var(--color-safe-soft)",
         },
         steady: {
           DEFAULT: "var(--color-steady)",
+          soft: "var(--color-steady-soft)",
         },
-        ground: {
-          DEFAULT: "var(--color-ground)",
-        },
+        ground: { DEFAULT: "var(--color-ground)" },
         surface: {
           DEFAULT: "var(--color-surface)",
           dim: "var(--color-surface-dim)",
+          raised: "var(--color-surface-raised)",
         },
         border: {
           DEFAULT: "var(--color-border)",
@@ -48,32 +50,22 @@ const config: Config = {
           DEFAULT: "var(--color-ink)",
           secondary: "var(--color-ink-secondary)",
           tertiary: "var(--color-ink-tertiary)",
+          ghost: "var(--color-ink-ghost)",
         },
+      },
+      borderRadius: {
+        sm: "var(--radius-sm)",
+        md: "var(--radius-md)",
+        lg: "var(--radius-lg)",
+        xl: "var(--radius-xl)",
       },
       boxShadow: {
+        xs: "var(--shadow-xs)",
         sm: "var(--shadow-sm)",
         md: "var(--shadow-md)",
-        tactical: "var(--shadow-tactical)",
-      },
-      animation: {
-        "skeleton-pulse": "skeleton-pulse 1.8s ease-in-out infinite",
-        "subtle-pulse": "subtle-pulse 2s ease-in-out infinite",
-        "live-pulse": "live-pulse 1.5s infinite",
-      },
-      keyframes: {
-        "skeleton-pulse": {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.5" },
-        },
-        "subtle-pulse": {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.7" },
-        },
-        "live-pulse": {
-          "0%": { opacity: "1" },
-          "50%": { opacity: "0.5" },
-          "100%": { opacity: "1" },
-        },
+        lg: "var(--shadow-lg)",
+        glow: "var(--shadow-glow)",
+        card: "var(--shadow-card)",
       },
     },
   },

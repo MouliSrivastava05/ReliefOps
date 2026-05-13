@@ -4,13 +4,6 @@ import { PriorityBadge } from "@/components/common/PriorityBadge";
 import { StatusChip } from "@/components/common/StatusChip";
 import { IconMedical, IconShelter, IconFood, IconEmergency } from "@/components/common/Icons";
 
-/**
- * RequestCard — Triage-optimized request display
- *
- * Left border color encodes severity for instant visual scanning.
- * Information hierarchy: Status + Severity (top) → Type → Description → Actions
- */
-
 type Props = {
   id: string;
   type: string;
@@ -18,14 +11,6 @@ type Props = {
   severity: number;
   description?: string;
   actions?: React.ReactNode;
-};
-
-const TRIAGE_CLASS: Record<number, string> = {
-  1: "ro-triage-1",
-  2: "ro-triage-2",
-  3: "ro-triage-3",
-  4: "ro-triage-4",
-  5: "ro-triage-5",
 };
 
 const TYPE_ICONS: Record<string, React.ElementType> = {
@@ -36,61 +21,49 @@ const TYPE_ICONS: Record<string, React.ElementType> = {
   other: IconEmergency,
 };
 
-export function RequestCard({
-  id,
-  type,
-  status,
-  severity,
-  description,
-  actions,
-}: Props) {
-  const triageClass = TRIAGE_CLASS[Math.max(1, Math.min(5, severity))] ?? "ro-triage-3";
+const SEVERITY_ACCENTS: Record<number, string> = {
+  1: "var(--color-steady)",
+  2: "var(--color-action)",
+  3: "var(--color-caution)",
+  4: "var(--color-hazard)",
+  5: "var(--color-critical)",
+};
+
+export function RequestCard({ id, type, status, severity, description, actions }: Props) {
+  const accent = SEVERITY_ACCENTS[Math.max(1, Math.min(5, severity))] ?? "var(--color-border)";
+  const Icon = TYPE_ICONS[type.toLowerCase()] || TYPE_ICONS.other;
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-xl border border-border bg-surface transition-all duration-300 hover:shadow-lg hover:scale-[1.005] ${triageClass}`}
-      style={{ 
-        boxShadow: "var(--shadow-premium)",
-      }}
+      className="group ro-card !p-0 overflow-hidden transition-all duration-300 hover:shadow-md"
+      style={{ borderLeftWidth: "4px", borderLeftColor: accent }}
     >
-      {/* Inner Glow Overlay */}
-      <div className="absolute inset-0 border-t border-white/40 pointer-events-none" />
-      
-      <div className="p-6 pl-7">
-        {/* Row 1: Status + Severity + Type */}
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="p-5 sm:p-6">
+        <div className="flex flex-wrap items-center gap-2.5">
           <StatusChip status={status} />
           <PriorityBadge level={severity} />
-          <div className="h-3 w-px bg-border mx-1" />
-          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-ink">
-            {(() => {
-              const Icon = TYPE_ICONS[type.toLowerCase()] || TYPE_ICONS.other;
-              return <Icon size={14} className="opacity-70" />;
-            })()}
-            {type}
+          <div className="h-3.5 w-px mx-0.5" style={{ backgroundColor: "var(--color-border)" }} />
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold" style={{ color: "var(--color-ink)" }}>
+            <Icon size={14} style={{ color: "var(--color-ink-tertiary)" }} />
+            {type.charAt(0).toUpperCase() + type.slice(1)}
           </span>
         </div>
 
-        {/* Row 2: ID */}
-        <div className="mt-3">
-          <span className="font-mono text-[0.6rem] font-bold uppercase tracking-tighter opacity-40">
-            Node ID: {id}
-          </span>
-        </div>
+        <p className="mt-2.5 font-mono text-[0.6rem]" style={{ color: "var(--color-ink-tertiary)" }}>
+          ID: {id}
+        </p>
 
-        {/* Row 3: Description */}
-        {description ? (
-          <p className="mt-4 text-[0.875rem] leading-relaxed text-ink-secondary text-balance">
+        {description && (
+          <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--color-ink-secondary)" }}>
             {description}
           </p>
-        ) : null}
+        )}
 
-        {/* Row 4: Actions */}
-        {actions ? (
-          <div className="mt-6 flex flex-wrap gap-2 border-t border-border/50 pt-5">
+        {actions && (
+          <div className="mt-5 flex flex-wrap gap-2 pt-4 border-t" style={{ borderColor: "var(--color-border)" }}>
             {actions}
           </div>
-        ) : null}
+        )}
       </div>
     </article>
   );
