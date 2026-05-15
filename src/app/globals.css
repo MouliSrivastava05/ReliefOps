@@ -112,6 +112,15 @@
   .ro-btn-ghost {
     @apply ro-btn text-ink-secondary hover:bg-surface-dim hover:text-ink;
   }
+  .ro-btn-sos {
+    @apply ro-btn bg-critical text-white shadow-lg uppercase tracking-widest;
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    box-shadow: 0 10px 15px -3px rgba(220, 38, 38, 0.3), 0 4px 6px -2px rgba(220, 38, 38, 0.05);
+    animation: sos-breathe 3s ease-in-out infinite;
+  }
+  .ro-btn-sos:hover {
+    @apply -translate-y-0.5 shadow-xl brightness-110;
+  }
 
   /* ── Alerts ── */
   .ro-alert {
